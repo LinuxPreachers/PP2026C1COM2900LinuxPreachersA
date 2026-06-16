@@ -1,0 +1,8 @@
+*.class
+bin/
+out/
+.metadata/
+.settings/
+*.launch
+*.jar
+*.log
