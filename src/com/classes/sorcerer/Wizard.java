@@ -1,6 +1,6 @@
-package com.classes.character;
+package com.classes.sorcerer;
 
-public class Wizard extends Character 
+public class Wizard extends Sorcerer 
 {
 	private int housePoints;
 

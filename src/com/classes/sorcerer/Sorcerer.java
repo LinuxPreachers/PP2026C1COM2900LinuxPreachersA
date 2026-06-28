@@ -1,10 +1,10 @@
-package com.classes.character;
+package com.classes.sorcerer;
 import java.util.ArrayList;
 import java.util.List;
 import com.classes.effect.Effect;
 import com.classes.spell.Spell;
 
-public abstract class Character 
+public abstract class Sorcerer 
 {
 	protected String name;
 	protected int magicLevel;
@@ -14,7 +14,7 @@ public abstract class Character
 	
 	/* Constructores */
 	
-	public Character(String name, int magicLevel, int healthPoints)
+	public Sorcerer(String name, int magicLevel, int healthPoints)
 	{
 		this.name = name;
 		this.magicLevel = magicLevel;
@@ -23,9 +23,15 @@ public abstract class Character
 	
 	// Getters
 
-	public int getHealthPoints(){ return healthPoints; }
-	public String getName() { return name; }
+	public int getHealthPoints()
+	{ 
+		return healthPoints; 
+	}
 	
+	public String getName() 
+	{
+		return name; 
+	}
 	
 	// Metodos
 	
@@ -74,7 +80,7 @@ public abstract class Character
 	
 	public void onTurnStart() 
 	{
-        activeEffects.forEach(effect -> effect.onTurnStart(this));
+        activeEffects.forEach(effect -> effect.act(this));
         activeEffects.removeIf(Effect::isExpired);
     }
 	

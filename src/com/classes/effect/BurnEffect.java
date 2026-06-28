@@ -1,7 +1,7 @@
 package com.classes.effect;
-import com.classes.character.Character;
+import com.classes.sorcerer.Sorcerer;
 
-public class BurnEffect extends BaseEffect 
+public class BurnEffect extends Effect 
 {
     private int damagePerTurn;
 
@@ -10,9 +10,15 @@ public class BurnEffect extends BaseEffect
         super(description, turnsDuration);
         this.damagePerTurn = damagePerTurn;
     }
+    
+    @Override
+    public int filterReceivedDamage(int damagePoints) 
+    {
+    	return damagePoints + damagePerTurn;
+    }
 
     @Override
-    protected void applyEffectLogic(Character target) 
+    protected void applyLogic(Sorcerer target) 
     {
         target.receiveDamage(this.damagePerTurn);
     }

@@ -1,6 +1,6 @@
-package com.classes.character;
+package com.classes.sorcerer;
 
-public class DeathEater extends Character 
+public class DeathEater extends Sorcerer 
 {
 	private int darkMarkIntensity;
 	

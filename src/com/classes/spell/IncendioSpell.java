@@ -1,5 +1,5 @@
 package com.classes.spell;
-import com.classes.character.Character;
+import com.classes.sorcerer.Sorcerer;
 import com.classes.effect.BurnEffect;
 
 public class IncendioSpell implements Spell
@@ -17,7 +17,7 @@ public class IncendioSpell implements Spell
 	}
 	
 	@Override		
-	public void execute(Character caster, Character target)
+	public void execute(Sorcerer caster, Sorcerer target)
     {
 		target.receiveDamage(10);
 		target.addEffect(new BurnEffect("Quemadura de Incendio", 5, 3));

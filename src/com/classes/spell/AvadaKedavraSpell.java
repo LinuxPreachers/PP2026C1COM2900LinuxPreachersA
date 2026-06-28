@@ -1,5 +1,5 @@
 package com.classes.spell;
-import com.classes.character.Character;
+import com.classes.sorcerer.Sorcerer;
 
 public class AvadaKedavraSpell implements Spell 
 {
@@ -16,7 +16,7 @@ public class AvadaKedavraSpell implements Spell
 	}
 	
 	@Override		
-	public void execute(Character caster, Character target)
+	public void execute(Sorcerer caster, Sorcerer target)
     {
 		target.instantKill();
     }
