@@ -2,15 +2,7 @@ package com.classes.sorcerer;
 
 public class DeathEater extends Sorcerer 
 {
-	private int darkMarkIntensity;
-	
-	public DeathEater(String name, int magicLevel, int healthPoints, int darkMarkIntensity)
-	{
+	public DeathEater(String name, int magicLevel, int healthPoints) {
 		super(name, magicLevel, healthPoints);
-		this.darkMarkIntensity = darkMarkIntensity;
 	}
-	
-	public int getDarkMarkIntensity() {
-        return this.darkMarkIntensity;
-    }
 }
