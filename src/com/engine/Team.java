@@ -41,7 +41,7 @@ public class Team {
 		this.dyingEnemyLife = dyingEnemyLife;
 	}
 
-	void attack(Team targetTeam) {
+	public void attack(Team targetTeam) {
 		if (targetTeam.getSorcerers().isEmpty()) {
 			System.err.println("Se intento atacar un equipo sin magos");
 			return;
@@ -79,7 +79,7 @@ public class Team {
 		spellsUsedPerSorcerer.getOrDefault(sorcerer, new ArrayList<Spell>()).add(spell);
 	}
 	
-	boolean addSorcerer(Sorcerer s) {
+	public boolean addSorcerer(Sorcerer s) {
 		if (sorcerers.contains(s)) {
 			return false;
 		}
@@ -87,7 +87,7 @@ public class Team {
 		return true;
 	}
 	
-	boolean removeSorcerer(Sorcerer s) {
+	public boolean removeSorcerer(Sorcerer s) {
 		if (!sorcerers.contains(s)) {
 			return false;
 		}
@@ -95,11 +95,11 @@ public class Team {
 		return true;
 	}
 	
-	Set<Sorcerer> getSorcerers() {
+	public Set<Sorcerer> getSorcerers() {
 		return Collections.unmodifiableSet(sorcerers);
 	}
 	
-	boolean hasHealthySorcerers() {
+	public boolean hasHealthySorcerers() {
 		for (Sorcerer s : sorcerers) {
 			if (s.getHealthPoints() > 0) {
 				return true;
@@ -108,7 +108,7 @@ public class Team {
 		return false;
 	}
 	
-	Spell chooseSpellRandom(Sorcerer s, Set<Spell> forbiddenSpells, Predicate<Spell> condition) {
+	public Spell chooseSpellRandom(Sorcerer s, Set<Spell> forbiddenSpells, Predicate<Spell> condition) {
 	    List<Spell> possibleSpells = new ArrayList<>(s.getLearnedSpells());
 	    
 		for (Spell forbiddenSpell : forbiddenSpells) {
@@ -129,7 +129,7 @@ public class Team {
 	    return possibleSpells.get(randomIndex);
 	}
 	
-	Spell chooseSpellAI(Sorcerer s, Team targetTeam, Set<Spell> forbiddenSpells, Predicate<Spell> condition) {
+	public Spell chooseSpellAI(Sorcerer s, Team targetTeam, Set<Spell> forbiddenSpells, Predicate<Spell> condition) {
 		Sorcerer partnerDying = this.memberDying(dyingPartnerLife);
 		Sorcerer enemyDying = targetTeam.memberDying(dyingEnemyLife);
 		
@@ -182,6 +182,12 @@ public class Team {
 		}
 		
 		return leastLifeMember;
+	}
+	
+	public generateTeam(SorcererCreator sorcererCreator, int members) {
+		for (int i=0; i<members; i++) {
+			this.addSorcerer(sorcererCreator.createSorcerer());
+		}
 	}
 	
 }
