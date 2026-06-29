@@ -1,4 +1,5 @@
 package com.classes.sorcerer;
+import com.classes.spell.MagicType;
 
 public class Professor extends Wizard{
 

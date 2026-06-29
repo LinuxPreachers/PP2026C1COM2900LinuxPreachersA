@@ -1,4 +1,5 @@
 package com.classes.sorcerer;
+import com.classes.spell.MagicType;
 
 public class Commander extends DeathEater{
 	public Commander(String name, int magicLevel, int healthPoints) {

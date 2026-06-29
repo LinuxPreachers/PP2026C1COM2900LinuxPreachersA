@@ -26,4 +26,9 @@ public abstract class Spell {
     }
     
     public abstract boolean cast(Sorcerer caster, Sorcerer target);
+    
+    @Override
+    public String toString() {
+    	return this.name;
+    }
 }

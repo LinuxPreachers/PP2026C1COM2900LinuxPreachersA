@@ -55,4 +55,8 @@ public abstract class Effect
     }
     
     protected abstract void applyLogic(Sorcerer target);
+    
+    public boolean blocks(Effect effect) {
+    	return false;
+    }
 }

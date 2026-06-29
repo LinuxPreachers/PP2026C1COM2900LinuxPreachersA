@@ -26,4 +26,9 @@ public class ProtectEffect extends Effect
     protected void applyLogic(Sorcerer target) 
     {
     }
+    
+    @Override
+    public boolean blocks(Effect effect) {
+    	return effect.getPolarity() == Effect.EffectPolarity.HARMFUL;
+    }
 }

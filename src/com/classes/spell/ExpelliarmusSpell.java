@@ -1,11 +1,10 @@
 package com.classes.spell;
 
-import com.classes.effect.Effect;
 import com.classes.sorcerer.Sorcerer;
 
 public class ExpelliarmusSpell extends Spell {
 
-	private final static int 
+	public final static int 
 		BASE_DAMAGE = 5,
 		REQUIRED_LEVEL = 10;
 	
