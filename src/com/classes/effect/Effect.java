@@ -3,13 +3,21 @@ import com.classes.sorcerer.Sorcerer;
 
 public abstract class Effect
 {
+	public enum EffectPolarity {
+		BENEFICIAL,
+		HARMFUL,
+		NEUTRAL
+	}
+	
 	protected String name;
 	protected int turnsDuration;
-    
-    public Effect(String name, int turnsDuration) 
+	protected EffectPolarity polarity;
+	    
+    public Effect(String name, int turnsDuration, EffectPolarity polarity) 
     {
         this.name = name;
         this.turnsDuration = turnsDuration;
+        this.polarity = polarity;
     }
     
     public void act(Sorcerer target)
@@ -27,6 +35,11 @@ public abstract class Effect
     {
         return this.name;
     }
+    
+    public EffectPolarity getPolarity() 
+    {
+        return this.polarity;
+    }
         
     /*
      * Por defecto, los efectos permiten atacar.
@@ -36,6 +49,10 @@ public abstract class Effect
     	return true;
     }
     
-    public abstract int filterReceivedDamage(int damagePoints);
+    public int filterReceivedDamage(int damagePoints) 
+    {
+    	return damagePoints;
+    }
+    
     protected abstract void applyLogic(Sorcerer target);
 }

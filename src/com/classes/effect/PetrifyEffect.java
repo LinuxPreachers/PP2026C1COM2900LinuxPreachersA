@@ -3,15 +3,9 @@ import com.classes.sorcerer.Sorcerer;
 
 public class PetrifyEffect extends Effect 
 {	
-	public PetrifyEffect(String description, int turnsDuration) 
+	public PetrifyEffect(int turnsDuration) 
     {
-        super(description, turnsDuration);
-    }
-	
-    @Override
-    public int filterReceivedDamage(int damagePoints) 
-    {
-    	return damagePoints;
+        super("Petrificacion", turnsDuration, Effect.EffectPolarity.NEUTRAL);
     }
     
     @Override
@@ -21,8 +15,7 @@ public class PetrifyEffect extends Effect
     }
 
 	@Override
-	protected void applyLogic(Sorcerer target) {
-		// TODO Auto-generated method stub
-		
+	protected void applyLogic(Sorcerer target) 
+	{
 	}
 }

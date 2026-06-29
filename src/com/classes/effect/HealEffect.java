@@ -5,16 +5,10 @@ public class HealEffect extends Effect
 {
 	private int healingPerTurn;
 	
-	public HealEffect(String description, int healingPerTurn, int turnsDuration) 
+	public HealEffect(int healingPerTurn, int turnsDuration) 
     {
-        super(description, turnsDuration);
+        super("Curacion", turnsDuration, Effect.EffectPolarity.BENEFICIAL);
         this.healingPerTurn = healingPerTurn;
-    }
-	
-    @Override
-    public int filterReceivedDamage(int damagePoints) 
-    {
-    	return damagePoints;
     }
 	
 	@Override

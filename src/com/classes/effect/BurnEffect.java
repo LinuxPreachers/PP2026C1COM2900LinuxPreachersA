@@ -5,9 +5,9 @@ public class BurnEffect extends Effect
 {
     private int damagePerTurn;
 
-    public BurnEffect(String description, int damagePerTurn, int turnsDuration) 
+    public BurnEffect(int damagePerTurn, int turnsDuration) 
     {
-        super(description, turnsDuration);
+        super("Quemadura", turnsDuration, Effect.EffectPolarity.HARMFUL);
         this.damagePerTurn = damagePerTurn;
     }
     
