@@ -3,6 +3,7 @@ import com.classes.sorcerer.Sorcerer;
 
 public class PetrifyEffect extends Effect 
 {	
+	
 	public PetrifyEffect(int turnsDuration) 
     {
         super("Petrificacion", turnsDuration, Effect.EffectPolarity.NEUTRAL);

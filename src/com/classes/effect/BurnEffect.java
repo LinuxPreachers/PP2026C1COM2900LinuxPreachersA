@@ -3,23 +3,26 @@ import com.classes.sorcerer.Sorcerer;
 
 public class BurnEffect extends Effect 
 {
-    private int damagePerTurn;
+	
+	private final static int DAMAGE_PER_TURN = 5;
+	
+	private double casterEffectiveness;
 
-    public BurnEffect(int damagePerTurn, int turnsDuration) 
+    public BurnEffect(int turnsDuration, double casterEffectiveness) 
     {
         super("Quemadura", turnsDuration, Effect.EffectPolarity.HARMFUL);
-        this.damagePerTurn = damagePerTurn;
+        this.casterEffectiveness = casterEffectiveness;
     }
     
     @Override
     public int filterReceivedDamage(int damagePoints) 
     {
-    	return damagePoints + damagePerTurn;
+    	return damagePoints + (int) Math.round(DAMAGE_PER_TURN * casterEffectiveness);
     }
 
     @Override
     protected void applyLogic(Sorcerer target) 
     {
-        target.receiveDamage(this.damagePerTurn);
+        target.receiveDamage((int) Math.round(DAMAGE_PER_TURN * casterEffectiveness));
     }
 }

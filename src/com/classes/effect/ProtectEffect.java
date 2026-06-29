@@ -3,18 +3,23 @@ import com.classes.sorcerer.Sorcerer;
 
 public class ProtectEffect extends Effect 
 {
-    private double percentagePerTurn;
+	private final static int TURNS_DURATION = 2;
+	private final static double BASE_PROTECTION_PERCENTAGE = 0.25d;
+		
+    private double casterEffectiveness;
 
-    public ProtectEffect(double percentagePerTurn, int turnsDuration) 
+    public ProtectEffect(double casterEffectiveness) 
     {
-        super("Proteccion", turnsDuration, Effect.EffectPolarity.BENEFICIAL);
-        this.percentagePerTurn = Math.clamp(percentagePerTurn, 0.0f, 1.0f);
+        super("Proteccion", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
     }
     
     @Override
     public int filterReceivedDamage(int damagePoints) 
     {
-    	return (int)(damagePoints * (1.0f - this.percentagePerTurn));
+    	double protectionPercentage = 
+    			Math.clamp(BASE_PROTECTION_PERCENTAGE * casterEffectiveness, 0d, 1d);
+    	
+    	return (int) Math.round(damagePoints * (1d - protectionPercentage));
     }
 
     @Override
