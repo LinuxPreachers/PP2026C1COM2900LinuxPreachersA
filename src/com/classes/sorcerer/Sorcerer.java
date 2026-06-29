@@ -1,5 +1,6 @@
 package com.classes.sorcerer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import com.classes.effect.Effect;
 import com.classes.spell.Spell;
@@ -97,6 +98,10 @@ public abstract class Sorcerer
         }
 		
         return true;
+	}
+	
+	public List<Spell> getLearnedSpells() {
+		return Collections.unmodifiableList(learnedSpells);
 	}
 }
 
