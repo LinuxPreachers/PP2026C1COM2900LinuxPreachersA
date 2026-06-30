@@ -32,31 +32,25 @@ class SorcererTests {
 		assertEquals("Harry Potter", harry.getName(), "El nombre del mago no es correcto.");
 		assertEquals(harryLevel, harry.getLevel(), "El nivel del mago no es correcto.");
 		assertEquals(harryInitialHP, harry.getHealthPoints(), "Los puntos de vida iniciales no son correctos.");
-		assertTrue(harry.getLearnedSpells().isEmpty(), "El mago debería tener hechizos aprendidos al inicio.");
+		assertFalse(harry.getLearnedSpells().isEmpty(), "El mago debería tener hechizos aprendidos al inicio.");
 	}
 	
 	@Test
 	void learnSpellsKnowledge() {
 		
-		// Act
-		harry.learnSpells();
-		voldemort.learnSpells();
-		
 		// Assert
-		assertTrue(harry.getLearnedSpells().size() > 0, 
-			"Harry debería haber aprendido al menos un hechizo.");
-		assertTrue(voldemort.getLearnedSpells().size() > harry.getLearnedSpells().size(), 
-			"Voldemort (nivel 80) debería conocer más hechizos que Harry (nivel 10).");
+		assertTrue(harry.getLearnedSpells().size() > 0, harry.getName() + " debería haber aprendido al menos un hechizo.");
+		assertTrue(
+			voldemort.getLearnedSpells().size() > harry.getLearnedSpells().size(), 
+			voldemort.getName() + " (nivel 80) debería conocer más hechizos que " + harry.getName() + " (nivel 10)."
+		);
 		
 		spell = SpellRepository.getByName("Expelliarmus");
-		assertTrue(harry.getLearnedSpells().contains(spell), 
-			"Harry debería conocer Expelliarmus (nivel 10, ofensivo).");
+		assertTrue(harry.getLearnedSpells().contains(spell), "Harry debería conocer Expelliarmus (nivel 10, ofensivo).");
 		
 		spell = SpellRepository.getByName("Avada Kedavra");
-		assertFalse(harry.getLearnedSpells().contains(spell), 
-			"Harry no debería conocer Avada Kedavra (no conoce artes oscuras).");
-		assertTrue(voldemort.getLearnedSpells().contains(spell), 
-			"Voldemort debería conocer Avada Kedavra (nivel 80, artes oscuras).");
+		assertFalse(harry.getLearnedSpells().contains(spell), "Harry no debería conocer Avada Kedavra (no conoce artes oscuras).");
+		assertTrue(voldemort.getLearnedSpells().contains(spell), "Voldemort debería conocer Avada Kedavra (nivel 80, artes oscuras).");
 	}
 	
 	@Test
@@ -69,23 +63,24 @@ class SorcererTests {
 		harry.receiveDamage(damage);
 		
 		// Assert
-		assertEquals(harryInitialHP - damage, harry.getHealthPoints(), 
-			"El daño no se aplicó correctamente.");
+		assertEquals(harryInitialHP - damage, harry.getHealthPoints(), "El daño no se aplicó correctamente.");
 	}
 	
 	@Test
-	void receiveDamageLethal() {
+	void receiveLethalDamage() {
 		
 		// Arrange
-		int damage = harryInitialHP + 100;
+		int damage = harryInitialHP;
+		boolean result2;
 		
 		// Act
 		result = harry.receiveDamage(damage);
+		result2 = harry.receiveDamage(damage);
 		
 		// Assert
-		assertEquals(0, harry.getHealthPoints(), 
-			"El daño letal debería dejar al mago con 0 puntos de vida.");
-		assertTrue(result, "El metodo debería retornar true al morir el mago.");
+		assertEquals(0, harry.getHealthPoints(), "El daño letal debería dejar al mago con 0 puntos de vida.");
+		assertTrue(result, "El metodo debería retornar true si el mago esta vivo al recibir daño.");
+		assertFalse(result2, "El metodo debería retornar false si el mago esta muerto al recibir daño.");
 	}
 	
 	@Test
@@ -101,10 +96,7 @@ class SorcererTests {
 		harry.heal(healAmount);
 		
 		// Assert
-		assertTrue(harry.getHealthPoints() > hpAfterDamage, 
-			"La curacion debería aumentar los puntos de vida.");
-		assertEquals(hpAfterDamage + healAmount, harry.getHealthPoints(), 
-			"La curacion no aplicó la cantidad correcta.");
+		assertEquals(hpAfterDamage + healAmount, harry.getHealthPoints(), "La curacion no aplicó la cantidad correcta.");
 	}
 	
 	@Test
@@ -118,8 +110,7 @@ class SorcererTests {
 		result = harry.cast(spell, voldemort);
 		
 		// Assert
-		assertFalse(result, 
-			"Harry no debería poder lanzar un hechizo que no ha aprendido.");
+		assertFalse(result, harry.getName() + " no debería poder lanzar un hechizo que no ha aprendido.");
 	}
 	
 	@Test
@@ -129,7 +120,6 @@ class SorcererTests {
 		harry.instantKill();
 		
 		// Assert
-		assertEquals(0, harry.getHealthPoints(), 
-			"instantKill debería establecer los puntos de vida a cero.");
+		assertEquals(0, harry.getHealthPoints(), "instantKill debería establecer los puntos de vida a cero.");
 	}
 }

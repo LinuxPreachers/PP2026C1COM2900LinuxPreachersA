@@ -10,7 +10,7 @@ public class ProtectEffect extends Effect
 
     public ProtectEffect(double casterEffectiveness) 
     {
-        super("Proteccion", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
+        super("Protección", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
 		this.casterEffectiveness = casterEffectiveness;
     }
     
@@ -18,7 +18,7 @@ public class ProtectEffect extends Effect
     public int filterReceivedDamage(int damagePoints) 
     {
     	double protectionPercentage = 
-    			Math.clamp(BASE_PROTECTION_PERCENTAGE * casterEffectiveness, 0d, 1d);
+    		Math.clamp(BASE_PROTECTION_PERCENTAGE * casterEffectiveness, 0d, 1d);
     	
     	return (int) Math.round(damagePoints * (1d - protectionPercentage));
     }

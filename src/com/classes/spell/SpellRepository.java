@@ -21,6 +21,10 @@ public final class SpellRepository {
 		SPELLS.add(new VulneraSanenturSpell());
 	}
 	
+	// Impide la instanciación.
+	private SpellRepository() {
+	}
+	
 	public static Set<Spell> getAll() {
 		return Collections.unmodifiableSet(SPELLS);
 	}

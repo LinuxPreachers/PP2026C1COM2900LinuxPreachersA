@@ -4,7 +4,7 @@ import com.classes.spell.MagicType;
 
 public class VampireEffect extends Effect 
 {
-	private final static int 
+	public final static int 
 		DRAIN_PER_TURN = 5,
 		TURNS_DURATION = 3;
 	

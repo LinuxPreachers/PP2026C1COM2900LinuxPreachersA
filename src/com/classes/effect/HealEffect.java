@@ -3,7 +3,7 @@ import com.classes.sorcerer.Sorcerer;
 
 public class HealEffect extends Effect 
 {
-	private final static int 
+	public final static int 
 		HEALING_PER_TURN = 5,
 		TURNS_DURATION = 2;
 	
@@ -11,7 +11,7 @@ public class HealEffect extends Effect
 	
 	public HealEffect(double casterEffectiveness) 
     {
-        super("Curacion", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
+        super("Curación", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
         this.casterEffectiveness = casterEffectiveness;
     }
 	

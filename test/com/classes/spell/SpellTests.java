@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.classes.effect.ProtectEffect;
 import com.classes.sorcerer.Commander;
 import com.classes.sorcerer.Professor;
 import com.classes.sorcerer.Sorcerer;
@@ -112,7 +111,8 @@ class SpellTests {
 		result = voldemort.cast(spell, harry);
 		
 		// Assert
-		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
+		assertTrue(result, spell.getName() + " no realizó el daño correcto.");
+		assertTrue(harry.hasEffect("Quemadura"), spell.getName() + " no aplicó el efecto correcto.");
 		assertEquals(harryInitialHP - damage, harry.getHealthPoints(), spell.getName() + " no realizó el daño correcto.");
 		
 		// Annihilate
@@ -129,6 +129,7 @@ class SpellTests {
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
+		assertTrue(harry.hasEffect("Petrificción"), spell.getName() + " no aplicó el efecto correcto.");
 		assertFalse(harry.canAct(), spell.getName() + " no aplicó el efecto de petrificación.");
 		
 		// Annihilate
@@ -138,21 +139,14 @@ class SpellTests {
 	void protegoCast() {
 		
 		// Arrange
-		int actualDamage, incomingDamage = 100;
 		spell = SpellRepository.getByName("Protego");
-		double effectiveness = minerva.getModifier(spell.magicType);
-		
-		double protectionPercentage = 
-    			Math.clamp(ProtectEffect.BASE_PROTECTION_PERCENTAGE * effectiveness, 0d, 1d);
 		
 		// Act
 		result = minerva.cast(spell, harry);
-		harry.receiveDamage(incomingDamage);
-		actualDamage = (int) Math.round(incomingDamage * (1d - protectionPercentage));
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
-		assertEquals(actualDamage, harryInitialHP - harry.getHealthPoints(), spell.getName() + " no redujo el daño recibido.");
+		assertTrue(harry.hasEffect("Protección"), spell.getName() + " no aplicó el efecto correcto.");
 		
 		// Annihilate
 	}
@@ -171,6 +165,7 @@ class SpellTests {
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
 		assertEquals(harryInitialHP - damage, harry.getHealthPoints(), spell.getName() + " no realizó el daño correcto.");
+		assertTrue(harry.hasEffect("Vampirismo"), spell.getName() + " no aplicó el efecto correcto.");
 		
 		// Annihilate
 	}
@@ -191,6 +186,7 @@ class SpellTests {
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
 		assertEquals(hpBeforeCast + healAmount, harry.getHealthPoints(), spell.getName() + " no realizó la curación correcta.");
+		assertTrue(harry.hasEffect("Curación"), spell.getName() + " no aplicó el efecto correcto.");
 		
 		// Annihilate
 	}

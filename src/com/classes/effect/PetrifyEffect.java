@@ -6,7 +6,7 @@ public class PetrifyEffect extends Effect
 	
 	public PetrifyEffect(int turnsDuration) 
     {
-        super("Petrificacion", turnsDuration, Effect.EffectPolarity.NEUTRAL);
+        super("Petrificción", turnsDuration, Effect.EffectPolarity.NEUTRAL);
     }
     
     @Override

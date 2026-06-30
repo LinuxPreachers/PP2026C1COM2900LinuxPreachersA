@@ -71,18 +71,23 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	
 	public void heal(int points) {
 		if (points <= 0) {
-			throw new IllegalArgumentException("Heal points cannot be negative or zero.");
+			throw new IllegalArgumentException("Los puntos de curacón no pueden ser negativos o 0.");
 		}
 				
 		this.healthPoints = Math.min(this.maxHealthPoints, this.healthPoints + points);
 	}
 	
-	public boolean receiveDamage(int damagePoints) {
+	public boolean receiveDamage(int damagePoints) {	
+		
 		if (damagePoints <= 0) {
-			throw new IllegalArgumentException("Damage points cannot be negative or zero.");
+			throw new IllegalArgumentException("Los puntos de daño no pueden ser negativos o 0.");
 		}
 		
+		if (healthPoints <= 0)
+			return false;
+		
 		int finalDamage = damagePoints;
+		
         for (Effect effect : activeEffects) {
             finalDamage = effect.filterReceivedDamage(finalDamage);
         }
@@ -93,10 +98,10 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 			this.healthPoints -= finalDamage;
 		}
 		
-		return healthPoints == 0;
+		return true;
 	}
 	
-	public void addEffect(Effect effect) {
+	public boolean addEffect(Effect effect) {
 		
 		boolean blocked = false;
 		Effect current;
@@ -106,8 +111,28 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 			blocked = current.blocks(effect);
         }
 		
-		if (!blocked)
-			this.activeEffects.add(effect);
+		if (blocked)
+			return false;
+			
+		this.activeEffects.add(effect);
+		return true;
+	}
+	
+	public boolean hasEffect(String name) {
+		
+		if (name == null || name.trim() == "") {
+			throw new IllegalArgumentException("Se debe indicar un nombre de efecto.");
+		}
+		
+		Effect current;
+		boolean found = false;
+		
+		for (Iterator<Effect> it = this.activeEffects.iterator(); it.hasNext() && !found;) {
+			current = it.next();
+			found = current.getName() == name;
+        }
+		
+		return found;
 	}
 	
 	public void removeEffect(Effect effect) {
@@ -129,7 +154,6 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 		        iterator.remove();
 		    }
 		}
-		
 	}
 	
 	public void instantKill() {
@@ -163,6 +187,7 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 		return spell.cast(this, target);
 	}
 	
+	@Override
 	public String toString() {
 		return "Sourcerer[name=" + this.name + "|life=" + this.healthPoints + "|lvl" + this.level  + "]";
 	}

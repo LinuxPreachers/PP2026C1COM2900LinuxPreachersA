@@ -5,7 +5,6 @@ public class BurnEffect extends Effect
 {
 	
 	public final static int DAMAGE_PER_TURN = 5;
-	
 	private double casterEffectiveness;
 
     public BurnEffect(int turnsDuration, double casterEffectiveness) 
