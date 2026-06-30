@@ -7,10 +7,15 @@ import com.classes.sorcerer.WizardCreator;
 import java.util.List;
 
 public class Engine {
+	public enum AI {
+		RANDOM,
+		STRATEGIC
+	}
+	
 	private Team wizards = new Team();
 	private Team deathEaters = new Team();
 	private boolean printEvents = false;
-
+	private AI actualAI = AI.STRATEGIC;
 	
 	void generateWizards(WizardCreator wizardCreator, int members) {
 		wizards.generateTeam(wizardCreator, members);
@@ -28,6 +33,10 @@ public class Engine {
 		deathEaters.addSorcerer(de);
 	}
 	
+	public void setAI(AI newAI) {
+		actualAI = newAI;
+	}
+	
 	void playTurn() {
 		if (this.isBattleFinished()) {
 			return;
@@ -36,8 +45,13 @@ public class Engine {
 		wizards.onTurnStart();
 		deathEaters.onTurnStart();
 		
-		wizards.attackRandom(deathEaters);
-		deathEaters.attackRandom(wizards);
+		if (actualAI == AI.RANDOM) {
+			wizards.attackRandom(deathEaters);
+			deathEaters.attackRandom(wizards);
+		} else {
+			wizards.attackStrategic(deathEaters);
+			deathEaters.attackStrategic(wizards);
+		}
 	}
 	
 	boolean isBattleFinished() {

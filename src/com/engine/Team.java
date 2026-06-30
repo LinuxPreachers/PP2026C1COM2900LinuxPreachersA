@@ -29,7 +29,7 @@ public class Team
 	private boolean printEvents = false;
 	private String outputEvents="";
 	
-	public static record DecisionAI(Spell spell, Sorcerer target) {}
+	public static record DecisionAI(Spell spell, Sorcerer target, String description) {}
 	
 	public int getDyingPartnerLife() {
 		return dyingPartnerLife;
@@ -128,10 +128,9 @@ public class Team
 		}
 		
 		spellsUsedInTurn.clear();
-		
 	}
 	
-	public void attackAI(Team targetTeam) {
+	public void attackStrategic(Team targetTeam) {
 		
 		spellsUsedInTurn.clear();
 		
@@ -145,17 +144,15 @@ public class Team
 		for (Sorcerer s : sorcerers) {
 			
 			if (s.getHealthPoints() > 0) { // alive
-				DecisionAI decision = this.chooseAI(s, targetTeam, null);
+				DecisionAI decision = this.chooseStrategic(s, targetTeam, null);
 				
 	            if (decision != null && decision.spell() != null && decision.target() != null) {
 	                s.cast(decision.spell(), decision.target());
 	                spellsUsedInTurn.add(decision.spell());
 	                spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(decision.spell());
+		            outputEvent(s.getName() + " uso " + decision.spell.getName() + " contra " + decision.target.getName() + " debido a " + decision.description);
 	            }
-	            
-	            outputEvent(s.getName() + " uso " + decision.spell.getName() + " contra " + decision.target.getName());
 			}
-		
 		}
 		
 		spellsUsedInTurn.clear();
@@ -211,8 +208,7 @@ public class Team
 	    return possibleSpells.get(randomIndex);
 	}
 	
-public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditionToRemove) {
-		
+	public DecisionAI chooseStrategic(Sorcerer s, Team targetTeam, Predicate<Spell> conditionToRemove) {
 		Sorcerer partnerDying = this.memberDying(dyingPartnerLife);
 		Sorcerer enemyDying = targetTeam.memberDying(dyingEnemyLife);
 		
@@ -263,11 +259,11 @@ public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditi
 		
 	    if (partnerDying != null && (healthSpell != null || deffensiveSpell != null)) {
 	        Spell chosen = (healthSpell != null) ? healthSpell : deffensiveSpell;
-	        return new DecisionAI(chosen, partnerDying);
+	        return new DecisionAI(chosen, partnerDying, "que un aliado estaba moribundo.");
 	    }
 	    
 	    if (enemyDying != null && offensiveSpell != null) {
-	        return new DecisionAI(offensiveSpell, enemyDying);
+	        return new DecisionAI(offensiveSpell, enemyDying, "que encontro a un enemigo moribundo.");
 	    }
 		
 	    int sorcererLevel = s.getLevel();
@@ -281,7 +277,7 @@ public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditi
 	    }
 	    
 	    if (similarEnemy != null && offensiveSpell != null) {
-	        return new DecisionAI(offensiveSpell, similarEnemy);
+	        return new DecisionAI(offensiveSpell, similarEnemy, "que encontro un enemigo de nivel similar.");
 	    }
 	    
 	    Spell randomSpell = this.chooseSpellRandom(s, null);
@@ -298,7 +294,7 @@ public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditi
 	        defaultTarget = Collections.min(allies, new ComparatorSorcererLife());
 	    }
 	    
-	    return new DecisionAI(randomSpell, defaultTarget);
+	    return new DecisionAI(randomSpell, defaultTarget, "una decision espontanea.");
 	}
 
 	public Sorcerer memberDying(int lifeLimit) {

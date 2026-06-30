@@ -7,6 +7,7 @@ import com.classes.sorcerer.*;
 import com.classes.spell.Spell;
 import com.classes.spell.SpellRepository;
 import com.engine.Engine;
+import com.engine.Engine.AI;
 
 public class Main {
 
@@ -28,6 +29,7 @@ public class Main {
 		*/
 		
 		Engine battle = new Engine();
+
 		battle.addWizard(harry);
 		battle.addWizard(ron);
 		battle.addWizard(hermione);
@@ -39,6 +41,8 @@ public class Main {
 		System.out.println(battle);
 		
 		battle.activePrintEvents();
+		///battle.setAI(AI.RANDOM);
+		
 		battle.autoBattle();
 		
 		/*
