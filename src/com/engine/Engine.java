@@ -4,6 +4,8 @@ import com.classes.sorcerer.DeathEater;
 import com.classes.sorcerer.DeathEaterCreator;
 import com.classes.sorcerer.Wizard;
 import com.classes.sorcerer.WizardCreator;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Engine {
@@ -15,7 +17,7 @@ public class Engine {
 	private Team wizards = new Team();
 	private Team deathEaters = new Team();
 	private boolean printEvents = false;
-	private AI actualAI = AI.STRATEGIC;
+	private static AI actualAI = AI.STRATEGIC;
 	
 	void generateWizards(WizardCreator wizardCreator, int members) {
 		wizards.generateTeam(wizardCreator, members);
@@ -33,8 +35,8 @@ public class Engine {
 		deathEaters.addSorcerer(de);
 	}
 	
-	public void setAI(AI newAI) {
-		actualAI = newAI;
+	public static void setAI(AI newAI) {
+		Engine.actualAI = newAI;
 	}
 	
 	void playTurn() {
@@ -98,7 +100,9 @@ public class Engine {
 			}
 		}
 		
-		//System.out.println("Winners: " + this.whoWin());
+		if (printEvents) {			
+			System.out.println("Winners: " + this.whoWin());
+		}
 		
 	}
 	
@@ -109,15 +113,17 @@ public class Engine {
 			Engine e = new Engine();
 			
 			for (Wizard wiz : wizards) {
+				wiz.resetForBattle();
 				e.addWizard(wiz);
 			}
 			
 			for (DeathEater dea : deathEaters) {
+				dea.resetForBattle();
 				e.addDeathEater(dea);
 			}
 			
 			e.autoBattle();
-			if (e.whoWin() == "Wizards") {
+			if (e.whoWin().equals("Wizards")) {
 				w++;
 			} else {
 				d++;

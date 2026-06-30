@@ -212,4 +212,9 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	public String toString() {
 		return "Sourcerer[name=" + this.name + "|life=" + this.healthPoints + "|lvl" + this.level  + "]";
 	}
+	
+	public void resetForBattle() {
+	    this.healthPoints = this.maxHealthPoints;
+	    this.activeEffects.clear();
+	}
 }
