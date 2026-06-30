@@ -4,6 +4,7 @@ import com.classes.sorcerer.DeathEater;
 import com.classes.sorcerer.DeathEaterCreator;
 import com.classes.sorcerer.Wizard;
 import com.classes.sorcerer.WizardCreator;
+import java.util.List;
 
 public class Engine {
 	private Team wizards = new Team();
@@ -35,8 +36,8 @@ public class Engine {
 		wizards.onTurnStart();
 		deathEaters.onTurnStart();
 		
-		wizards.attackAI(deathEaters);
-		deathEaters.attackAI(wizards);
+		wizards.attackRandom(deathEaters);
+		deathEaters.attackRandom(wizards);
 	}
 	
 	boolean isBattleFinished() {
@@ -83,8 +84,31 @@ public class Engine {
 			}
 		}
 		
-		System.out.println("Winners: " + this.whoWin());
+		//System.out.println("Winners: " + this.whoWin());
 		
+	}
+	
+	static public void autoBattleN(List<Wizard> wizards, List<DeathEater> deathEaters, int n) {
+		int w = 0, d = 0;
+		
+		for (int i=0; i<n; i++) {
+			Engine e = new Engine();
+			for (Wizard wiz : wizards) {
+				e.addWizard(wiz);
+			}
+			for (DeathEater dea : deathEaters) {
+				e.addDeathEater(dea);
+			}
+			
+			e.autoBattle();
+			if (e.whoWin() == "Wizards") {
+				w++;
+			} else {
+				d++;
+			}
+		}
+		
+		System.out.println("AUTOBATTLED N=" + n + " W:" + w + " D:" + d);
 	}
 	
 	public String toString() {
