@@ -1,11 +1,9 @@
 package com.classes.sorcerer;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +12,7 @@ import com.classes.spell.Spell;
 import com.classes.spell.SpellRepository;
 import com.classes.spell.MagicType;
 
-public abstract class Sorcerer 
+public abstract class Sorcerer implements Comparable<Sorcerer>
 {
 	protected String name;
 	protected int level; // [0, 100]
@@ -61,6 +59,11 @@ public abstract class Sorcerer
 	}
 	
 	// Metodos
+	
+	@Override
+	public int compareTo(Sorcerer s) {
+		return this.level - s.level;
+	}
 	
 	public void learnSpells() {
 		for (Spell spell : SpellRepository.SPELLS) {
@@ -171,25 +174,3 @@ public abstract class Sorcerer
         return true;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

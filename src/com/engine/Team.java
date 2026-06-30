@@ -13,6 +13,8 @@ import java.util.HashSet;
 
 import com.classes.sorcerer.ComparatorSorcererLife;
 import com.classes.sorcerer.Sorcerer;
+import com.classes.sorcerer.SorcererCreator;
+import com.classes.spell.MagicType;
 import com.classes.spell.Spell;
 
 
@@ -23,7 +25,6 @@ public class Team {
 	
 	private int dyingPartnerLife = 5;
 	private int dyingEnemyLife = 5;
-	
 	
 	public int getDyingPartnerLife() {
 		return dyingPartnerLife;
@@ -42,6 +43,9 @@ public class Team {
 	}
 
 	public void attack(Team targetTeam) {
+		
+		spellsUsedInTurn.clear();
+		
 		if (targetTeam.getSorcerers().isEmpty()) {
 			System.err.println("Se intento atacar un equipo sin magos");
 			return;
@@ -61,19 +65,22 @@ public class Team {
 	    Spell spell = null;	
 	    Sorcerer sorcerer = null;
 	    List<Sorcerer> sorcerers = new ArrayList<>(targetTeam.sorcerers);
+	    
 		while (spell == null && !sorcerers.isEmpty()) { // in case some sorcerers cannot use any spell (because forbidden or other reasons)
 			randomIndex = random.nextInt(sorcerers.size());
 			sorcerer = sorcerers.get(randomIndex);
 			sorcerers.remove(randomIndex);			
 			
-			spell = this.chooseSpellRandom(sorcerer, spellsUsedInTurn, s -> s.getMagicType() == OFFENSIVE);
+			spell = this.chooseSpellRandom(sorcerer, spellsUsedInTurn);
 		}
 		
 		if (spell == null) {
 			return;
 		}
 		
-		spell.cast(sorcerer, enemy, sorcerer.getModifier(spell.getMagicType())); // TODO: Maybe the responsibility of calling this should be in the sorcerer  
+		
+		
+		spell.cast(sorcerer, enemy); // TODO: Maybe the responsibility of calling this should be in the sorcerer  
 		
 		spellsUsedInTurn.add(spell);
 		spellsUsedPerSorcerer.getOrDefault(sorcerer, new ArrayList<Spell>()).add(spell);
@@ -142,23 +149,35 @@ public class Team {
 			possibleSpells.removeIf(condition);
 		}
 		
-		List<Spell> healthSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == HEALING).toList(); // TODO
-		List<Spell> deffensiveSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == DEFFENSIVE).toList(); // TODO
-		List<Spell> offensiveSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == OFFENSIVE).toList(); // TODO
+		List<Spell> healthSpells = possibleSpells
+				.stream()
+				.filter(spell -> spell.getMagicType() == MagicType.HEALING)
+				.toList(); // TODO
 		
+		List<Spell> defensiveSpells = possibleSpells
+				.stream()
+				.filter(spell -> spell.getMagicType() == MagicType.DEFENSIVE)
+				.toList(); // TODO
 		
+		List<Spell> offensiveSpells = possibleSpells
+				.stream()
+				.filter(spell -> spell.getMagicType() == MagicType.OFFENSIVE)
+				.toList(); // TODO
+
 		Random random = new Random();
 		int randomIndex;
 		
 		randomIndex = random.nextInt(healthSpells.size());
 		Spell healthSpell = healthSpells.get(randomIndex);
-		randomIndex = random.nextInt(deffensiveSpells.size());
-		Spell deffensiveSpell = deffensiveSpells.get(randomIndex);
+		
+		randomIndex = random.nextInt(defensiveSpells.size());
+		Spell deffensiveSpell = defensiveSpells.get(randomIndex);
+		
 		randomIndex = random.nextInt(offensiveSpells.size());
 		Spell offensiveSpell = offensiveSpells.get(randomIndex);
 		
 		if (partnerDying != null && (healthSpell != null || deffensiveSpell != null)) {
-			return healthSpell!=null ? healthSpell : deffensiveSpell;
+			return healthSpell != null ? healthSpell : deffensiveSpell;
 		}
 		
 		if (enemyDying != null && offensiveSpell != null) {
@@ -172,8 +191,9 @@ public class Team {
 		List<Sorcerer> members = new ArrayList<>(sorcerers);
 		members.sort(new ComparatorSorcererLife());
 		
-		int i=0;
-		Sorcerer leastLifeMember=null;
+		int i = 0;
+		Sorcerer leastLifeMember = null;
+		
 		while (leastLifeMember == null && members.get(i).getHealthPoints() < lifeLimit) {
 			if (members.get(i).getHealthPoints() > 0) { // in case there are death members in list
 				leastLifeMember = members.get(i);
@@ -184,11 +204,9 @@ public class Team {
 		return leastLifeMember;
 	}
 	
-	public generateTeam(SorcererCreator sorcererCreator, int members) {
-		for (int i=0; i<members; i++) {
+	public void generateTeam(SorcererCreator sorcererCreator, int members) {
+		for (int i = 0; i < members; i++) {
 			this.addSorcerer(sorcererCreator.createSorcerer());
 		}
 	}
-	
 }
-

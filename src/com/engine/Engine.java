@@ -1,15 +1,18 @@
 package com.engine;
 
+import com.classes.sorcerer.WizardCreator;
+import com.classes.sorcerer.DeathEaterCreator;
+
 public class Engine {
 	private Team wizards;
 	private Team deathEaters;
-	boolean wizardsTurn=true;
+	boolean wizardsTurn = true;
 	
-	void generateWizards(WizardCreator wizardCreator, int members) { // TODO Creator
+	void generateWizards(WizardCreator wizardCreator, int members) {
 		wizards.generateTeam(wizardCreator, members);
 	}
 	
-	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) { TODO Creator
+	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) {
 		wizards.generateTeam(deathEaterCreator, members);
 	}
 	
