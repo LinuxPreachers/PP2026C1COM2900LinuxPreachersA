@@ -1,13 +1,7 @@
 package com;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.classes.sorcerer.*;
-import com.classes.spell.Spell;
-import com.classes.spell.SpellRepository;
 import com.engine.Engine;
-import com.engine.Engine.AI;
 
 public class Main {
 
