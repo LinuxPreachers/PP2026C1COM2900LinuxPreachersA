@@ -6,7 +6,7 @@ import com.classes.effect.HealEffect;
 
 public class VulneraSanenturSpell extends Spell {
 
-	private final static int 
+	public final static int 
 		BASE_HEAL = 40,
 		REQUIRED_LEVEL = 25;
 

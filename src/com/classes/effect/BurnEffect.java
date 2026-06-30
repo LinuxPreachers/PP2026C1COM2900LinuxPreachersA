@@ -4,7 +4,7 @@ import com.classes.sorcerer.Sorcerer;
 public class BurnEffect extends Effect 
 {
 	
-	private final static int DAMAGE_PER_TURN = 5;
+	public final static int DAMAGE_PER_TURN = 5;
 	
 	private double casterEffectiveness;
 

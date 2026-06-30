@@ -5,7 +5,7 @@ import com.classes.sorcerer.Sorcerer;
 
 public class SectumsempraSpell extends Spell {
 	
-	private final static int 
+	public final static int 
 		BASE_DAMAGE = 25,
 		REQUIRED_LEVEL = 30;
 	

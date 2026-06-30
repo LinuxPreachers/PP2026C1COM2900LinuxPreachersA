@@ -4,7 +4,7 @@ import com.classes.sorcerer.Sorcerer;
 
 public class EpiskeySpell extends Spell {
 
-	private final static int 
+	public final static int 
 		BASE_HEAL = 15,
 		REQUIRED_LEVEL = 10;
 

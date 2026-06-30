@@ -4,7 +4,7 @@ import com.classes.effect.BurnEffect;
 
 public class IncendioSpell extends Spell {
 
-	private final static int 
+	public final static int 
 		BASE_DAMAGE = 10,
 		REQUIRED_LEVEL = 20,
 		TURNS_DURATION = 2;

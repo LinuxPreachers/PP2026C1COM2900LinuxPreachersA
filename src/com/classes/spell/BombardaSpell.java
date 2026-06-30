@@ -6,7 +6,7 @@ import com.classes.sorcerer.Sorcerer;
 
 public class BombardaSpell extends Spell {
 
-	private final static int 
+	public final static int 
 		BASE_DAMAGE = 40,
 		REQUIRED_LEVEL = 30,
 		EFFECT_TURNS_DURATION = 1;
