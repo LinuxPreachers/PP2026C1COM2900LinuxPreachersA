@@ -7,13 +7,15 @@ public class EpiskeySpell extends Spell {
 	public final static int 
 		BASE_HEAL = 15,
 		REQUIRED_LEVEL = 10;
+	
+	private final static double HIT_RATE = 0.95d;
 
 	public EpiskeySpell() {
-		super("Episkey", MagicType.HEALING, REQUIRED_LEVEL);
+		super("Episkey", MagicType.HEALING, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override
-	public boolean cast(Sorcerer caster, Sorcerer target) {
+	public boolean apply(Sorcerer caster, Sorcerer target) {
 		
 		if (target.getHealthPoints() <= 0)
 			return false;

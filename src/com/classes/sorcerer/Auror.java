@@ -9,6 +9,8 @@ public class Auror extends Wizard{
         knownMagicTypes.put(MagicType.DEFENSIVE, 1.25);
         knownMagicTypes.put(MagicType.CONTROL, 1.25);
         
+        accuracy = 0.8;
+        
         learnSpells();
 	}
 

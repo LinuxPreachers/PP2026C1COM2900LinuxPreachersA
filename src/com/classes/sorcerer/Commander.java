@@ -8,6 +8,8 @@ public class Commander extends DeathEater{
 		knownMagicTypes.put(MagicType.CONTROL, 1.75);
 		knownMagicTypes.put(MagicType.DARK_ARTS, 1.75);
 		
+		accuracy = 0.85;
+		
 		learnSpells();
 	}
 }

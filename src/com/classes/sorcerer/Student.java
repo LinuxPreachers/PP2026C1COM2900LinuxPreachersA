@@ -9,6 +9,8 @@ public class Student extends Wizard {
         knownMagicTypes.put(MagicType.DEFENSIVE, 0.8);
         knownMagicTypes.put(MagicType.HEALING, 0.9);
         
+        accuracy = 0.5;
+        
         learnSpells();
 	}
 
