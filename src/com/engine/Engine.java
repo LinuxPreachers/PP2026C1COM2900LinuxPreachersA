@@ -2,6 +2,7 @@ package com.engine;
 
 import com.classes.sorcerer.DeathEater;
 import com.classes.sorcerer.DeathEaterCreator;
+import com.classes.sorcerer.Sorcerer;
 import com.classes.sorcerer.Wizard;
 import com.classes.sorcerer.WizardCreator;
 
@@ -23,7 +24,7 @@ public class Engine {
 		wizards.generateTeam(wizardCreator, members);
 	}
 	
-	public void addWizard(Wizard w) {
+	public void addWizard(Sorcerer w) {
 		wizards.addSorcerer(w);
 	}
 	
@@ -31,7 +32,7 @@ public class Engine {
 		wizards.generateTeam(deathEaterCreator, members);
 	}
 	
-	public void addDeathEater(DeathEater de) {
+	public void addDeathEater(Sorcerer de) {
 		deathEaters.addSorcerer(de);
 	}
 	

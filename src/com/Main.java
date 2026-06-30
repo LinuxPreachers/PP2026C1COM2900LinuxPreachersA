@@ -10,6 +10,24 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		Engine battle = new Engine();
+		
+		WizardCreator wc = new WizardCreator();
+		DeathEaterCreator dc = new DeathEaterCreator();
+		
+		Sorcerer wizard, deathEater;
+		
+		for (int i = 0; i < 5; i++) {
+			wizard = wc.createSorcerer();
+			battle.addWizard(wizard);
+			
+			deathEater = dc.createSorcerer();
+			battle.addDeathEater(deathEater);
+		}
+		
+		battle.activePrintEvents();
+		battle.autoBattle();
+		
 		/*
 		Wizard harry = new Auror("Harry Potter", 15, 100);
 		Wizard ron = new Student("Ron Weasley", 15, 100);
@@ -23,6 +41,7 @@ public class Main {
 		ArrayList<DeathEater> deathEaters = new ArrayList<>(List.of(minifollower1, minifollower2, minifollower3));
 		*/
 
+		/*
 		ArrayList<Wizard> wizards = new ArrayList<>();
 		ArrayList<DeathEater> deathEaters = new ArrayList<>();
 		
@@ -37,7 +56,7 @@ public class Main {
 		Engine.setAI(AI.RANDOM);
 		
 		Engine.autoBattleN(wizards, deathEaters, 350);
-
+		*/
 		
 		/*
 		Engine battle = new Engine();
