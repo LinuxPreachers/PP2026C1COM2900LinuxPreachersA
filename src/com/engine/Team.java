@@ -18,7 +18,8 @@ import com.classes.spell.MagicType;
 import com.classes.spell.Spell;
 
 
-public class Team {
+public class Team 
+{
 	private Set<Sorcerer> sorcerers = new TreeSet<>();
 	private Set<Spell> spellsUsedInTurn = new HashSet<>();
 	private Map<Sorcerer, List<Spell>> spellsUsedPerSorcerer = new HashMap<Sorcerer, List<Spell>>();
@@ -27,6 +28,8 @@ public class Team {
 	private int dyingEnemyLife = 5;
 	private boolean printEvents = false;
 	private String outputEvents="";
+	
+	public static record DecisionAI(Spell spell, Sorcerer target) {}
 	
 	public int getDyingPartnerLife() {
 		return dyingPartnerLife;
@@ -128,6 +131,34 @@ public class Team {
 		
 	}
 	
+	public void attackAI(Team targetTeam) {
+		
+		spellsUsedInTurn.clear();
+		
+		if (targetTeam.getSorcerers().isEmpty()) {
+			System.err.println("Se intento atacar un equipo sin magos");
+			return;
+		}
+		
+		spellsUsedInTurn.clear();
+		
+		for (Sorcerer s : sorcerers) {
+			
+			if (s.getHealthPoints() > 0) { // alive
+				DecisionAI decision = this.chooseAI(s, targetTeam, null);
+				
+	            if (decision != null && decision.spell() != null && decision.target() != null) {
+	                s.cast(decision.spell(), decision.target());
+	                spellsUsedInTurn.add(decision.spell());
+	                spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(decision.spell());
+	            }
+			}
+		
+		}
+		
+		spellsUsedInTurn.clear();
+	}
+	
 	public boolean addSorcerer(Sorcerer s) {
 		if (sorcerers.contains(s)) {
 			return false;
@@ -178,8 +209,7 @@ public class Team {
 	    return possibleSpells.get(randomIndex);
 	}
 	
-	/*
-	public Spell chooseSpellAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditionToRemove) {
+public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditionToRemove) {
 		
 		Sorcerer partnerDying = this.memberDying(dyingPartnerLife);
 		Sorcerer enemyDying = targetTeam.memberDying(dyingEnemyLife);
@@ -196,41 +226,78 @@ public class Team {
 		List<Spell> healthSpells = possibleSpells
 				.stream()
 				.filter(spell -> spell.getMagicType() == MagicType.HEALING)
-				.toList(); // TODO
+				.toList();
 		
 		List<Spell> defensiveSpells = possibleSpells
 				.stream()
 				.filter(spell -> spell.getMagicType() == MagicType.DEFENSIVE)
-				.toList(); // TODO
+				.toList();
 		
 		List<Spell> offensiveSpells = possibleSpells
 				.stream()
 				.filter(spell -> spell.getMagicType() == MagicType.OFFENSIVE)
-				.toList(); // TODO
+				.toList();
 
 		Random random = new Random();
 		int randomIndex;
 		
-		randomIndex = random.nextInt(healthSpells.size());
-		Spell healthSpell = healthSpells.get(randomIndex);
+		Spell healthSpell = null;
+	    if (!healthSpells.isEmpty()) {
+	        randomIndex = random.nextInt(healthSpells.size());
+	        healthSpell = healthSpells.get(randomIndex);
+	    }
+	    
+	    Spell deffensiveSpell = null;
+	    if (!defensiveSpells.isEmpty()) {
+	        randomIndex = random.nextInt(defensiveSpells.size());
+	        deffensiveSpell = defensiveSpells.get(randomIndex);
+	    }
+	    
+	    Spell offensiveSpell = null;
+	    if (!offensiveSpells.isEmpty()) {
+	        randomIndex = random.nextInt(offensiveSpells.size());
+	        offensiveSpell = offensiveSpells.get(randomIndex);
+	    }
 		
-		randomIndex = random.nextInt(defensiveSpells.size());
-		Spell deffensiveSpell = defensiveSpells.get(randomIndex);
+	    if (partnerDying != null && (healthSpell != null || deffensiveSpell != null)) {
+	        Spell chosen = (healthSpell != null) ? healthSpell : deffensiveSpell;
+	        return new DecisionAI(chosen, partnerDying);
+	    }
+	    
+	    if (enemyDying != null && offensiveSpell != null) {
+	        return new DecisionAI(offensiveSpell, enemyDying);
+	    }
 		
-		randomIndex = random.nextInt(offensiveSpells.size());
-		Spell offensiveSpell = offensiveSpells.get(randomIndex);
-		
-		if (partnerDying != null && (healthSpell != null || deffensiveSpell != null)) {
-			return healthSpell != null ? healthSpell : deffensiveSpell;
-		}
-		
-		if (enemyDying != null && offensiveSpell != null) {
-			return offensiveSpell;
-		}
-		
-		return this.chooseSpellRandom(s, forbiddenSpells, null);
+	    int sorcererLevel = s.getLevel();
+	    int deltaLevel = 5;
+	    Sorcerer similarEnemy = null;
+	    for (Sorcerer enemy : targetTeam.sorcerers) {
+	        if (Math.abs(enemy.getLevel() - sorcererLevel) <= deltaLevel) {
+	            similarEnemy = enemy;
+	            break;
+	        }
+	    }
+	    
+	    if (similarEnemy != null && offensiveSpell != null) {
+	        return new DecisionAI(offensiveSpell, similarEnemy);
+	    }
+	    
+	    Spell randomSpell = this.chooseSpellRandom(s, null);
+	    if (randomSpell == null) {
+	        return null;
+	    }
+	    
+	    Sorcerer defaultTarget;
+	    if (randomSpell.getMagicType() == MagicType.OFFENSIVE || randomSpell.getMagicType() == MagicType.DARK_ARTS || randomSpell.getMagicType() == MagicType.CONTROL) {
+	        List<Sorcerer> enemies = new ArrayList<>(targetTeam.sorcerers);
+	        defaultTarget = enemies.isEmpty() ? null : enemies.get(random.nextInt(enemies.size()));
+	    } else {
+	        List<Sorcerer> allies = new ArrayList<>(this.sorcerers);
+	        defaultTarget = Collections.min(allies, new ComparatorSorcererLife());
+	    }
+	    
+	    return new DecisionAI(randomSpell, defaultTarget);
 	}
-	*/
 
 	public Sorcerer memberDying(int lifeLimit) {
 		List<Sorcerer> members = new ArrayList<>(sorcerers);
@@ -262,14 +329,6 @@ public class Team {
 	}
 	
 	public String toString() {
-		/*
-		String rv = "Team[ ";
-		for (Sorcerer s : sorcerers) {
-			rv += s + ",";
-		}
-		rv += "]";
-		return rv;
-		*/
 		String rv = "\nTeam";
 		for (Sorcerer s : sorcerers) {
 			rv += "\n" + s.getName() + " / " + s.getHealthPoints() + " ❤︎ / lvl" + s.getLevel();
