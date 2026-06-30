@@ -82,7 +82,7 @@ public abstract class Sorcerer
 			throw new IllegalArgumentException("Heal points cannot be negative or zero.");
 		}
 				
-		this.healthPoints = Math.min(100, this.healthPoints + points);
+		this.healthPoints = Math.min(this.maxHealthPoints, this.healthPoints + points);
 	}
 	
 	public boolean receiveDamage(int damagePoints) {
