@@ -16,6 +16,7 @@ import com.classes.sorcerer.Sorcerer;
 import com.classes.sorcerer.SorcererCreator;
 import com.classes.spell.MagicType;
 import com.classes.spell.Spell;
+import com.classes.spell.SpellRepository;
 
 
 public class Team 
@@ -28,6 +29,7 @@ public class Team
 	private int dyingEnemyLife = 5;
 	private boolean printEvents = false;
 	private String outputEvents="";
+	private int turnNumber = 0;
 	
 	public static record DecisionAI(Spell spell, Sorcerer target, String description) {}
 	
@@ -89,6 +91,7 @@ public class Team
 
 			    randomIndex = random.nextInt(sorcerers.size());
 			    Spell spell = this.chooseSpellRandom(s, null);
+			    boolean success;
 			    
 			    if (spell != null) { // can cast any spell
 
@@ -99,9 +102,9 @@ public class Team
 					    randomIndex = random.nextInt(enemies.size());
 					    Sorcerer enemy = enemies.get(randomIndex);
 				    	
-				    	s.cast(spell, enemy);
+					    success = s.cast(spell, enemy);
 				    	
-				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + enemy.getName());
+				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + enemy.getName() + (!success ? " pero FALLO" : ""));
 				    	
 				    } else {
 				    	
@@ -109,9 +112,9 @@ public class Team
 				    	List<Sorcerer> allies = new ArrayList<>(this.sorcerers);
 				    	Sorcerer ally = Collections.min(allies, new ComparatorSorcererLife());
 				    	
-				    	s.cast(spell, ally);
+				    	success = s.cast(spell, ally);
 				    	
-				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + ally.getName());
+				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + ally.getName() + (!success ? " pero FALLO" : ""));
 				    }
 				    
 				    spellsUsedInTurn.add(spell);
@@ -119,7 +122,7 @@ public class Team
 			    	
 			    } else {
 			    	
-			    	outputEvent(s.getName() + " no tiene que hacer ");
+			    	outputEvent(s.getName() + " pierde el turno ");
 			    	
 			    }
 				
@@ -140,6 +143,7 @@ public class Team
 		}
 		
 		spellsUsedInTurn.clear();
+		boolean success;
 		
 		for (Sorcerer s : sorcerers) {
 			
@@ -147,12 +151,12 @@ public class Team
 				DecisionAI decision = this.chooseStrategic(s, targetTeam, null);
 				
 	            if (decision != null && decision.spell() != null && decision.target() != null) {
-	                s.cast(decision.spell(), decision.target());
+	            	success = s.cast(decision.spell(), decision.target());
 	                spellsUsedInTurn.add(decision.spell());
 	                spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(decision.spell());
-		            outputEvent(s.getName() + " uso " + decision.spell.getName() + " contra " + decision.target.getName() + " debido a " + decision.description);
+		            outputEvent(s.getName() + " uso " + decision.spell.getName() + " contra " + decision.target.getName() + " debido a " + decision.description + (!success ? " pero FALLO" : ""));
 	            } else {
-			    	outputEvent(s.getName() + " no tiene que hacer ");
+			    	outputEvent(s.getName() + " pierde el turno ");
 			    }
 			}
 		}
@@ -201,7 +205,7 @@ public class Team
 		}
 		
 		if (possibleSpells.isEmpty()) {
-			return null;
+			return turnNumber % 2 == 0 ? SpellRepository.getByName("Expelliarmus") : null; // Elije un hechizo por default de forma alternada
 		}
 		
 	    Random random = new Random();
@@ -261,11 +265,11 @@ public class Team
 		
 	    if (partnerDying != null && (healthSpell != null || deffensiveSpell != null)) {
 	        Spell chosen = (healthSpell != null) ? healthSpell : deffensiveSpell;
-	        return new DecisionAI(chosen, partnerDying, "que un aliado estaba moribundo.");
+	        return new DecisionAI(chosen, partnerDying, "que un aliado estaba moribundo");
 	    }
 	    
 	    if (enemyDying != null && offensiveSpell != null) {
-	        return new DecisionAI(offensiveSpell, enemyDying, "que encontro a un enemigo moribundo.");
+	        return new DecisionAI(offensiveSpell, enemyDying, "que encontro a un enemigo moribundo");
 	    }
 		
 	    int sorcererLevel = s.getLevel();
@@ -279,7 +283,7 @@ public class Team
 	    }
 	    
 	    if (similarEnemy != null && offensiveSpell != null) {
-	        return new DecisionAI(offensiveSpell, similarEnemy, "que encontro un enemigo de nivel similar.");
+	        return new DecisionAI(offensiveSpell, similarEnemy, "que encontro un enemigo de nivel similar");
 	    }
 	    
 	    Spell randomSpell = this.chooseSpellRandom(s, null);
@@ -296,7 +300,7 @@ public class Team
 	        defaultTarget = Collections.min(allies, new ComparatorSorcererLife());
 	    }
 	    
-	    return new DecisionAI(randomSpell, defaultTarget, "una decision espontanea.");
+	    return new DecisionAI(randomSpell, defaultTarget, "una decision espontanea");
 	}
 
 	public Sorcerer memberDying(int lifeLimit) {
