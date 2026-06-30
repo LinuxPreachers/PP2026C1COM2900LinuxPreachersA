@@ -11,6 +11,7 @@ public class ProtectEffect extends Effect
     public ProtectEffect(double casterEffectiveness) 
     {
         super("Proteccion", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
+		this.casterEffectiveness = casterEffectiveness;
     }
     
     @Override
