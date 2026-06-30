@@ -133,6 +133,12 @@ public class Engine {
 		}
 		
 		System.out.println("AUTOBATTLED N=" + n + " W:" + w + " D:" + d);
+		
+		if (w!=d) {
+			System.out.println("Los " + (w > d ? "magos" : "mortifagos") + "han ganado mas batallas");
+		} else {
+			System.out.println("Los bandos han empatado!");
+		}
 	}
 	
 	public String toString() {
