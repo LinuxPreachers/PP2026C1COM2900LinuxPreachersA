@@ -5,16 +5,29 @@ import com.engine.Engine;
 import com.engine.Engine.AI;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
 	public static void main(String[] args) {
 		
+		Main.superRandomCase();
+		
+	}
+	
+	public static void superRandomCase() {
 		Engine battle = new Engine();
 		
-		/*
-		ArrayList<Wizard> wizards = new ArrayList<>());
-		ArrayList<DeathEater> deathEaters = new ArrayList<>());
+		battle.generateWizards(new WizardCreator(), 5);	
+		battle.generateDeathEaters(new DeathEaterCreator(), 5);
+		
+		battle.activePrintEvents();
+		battle.autoBattle();
+	}
+	
+	public static void superRandomCase2() {
+		
+		Engine battle = new Engine();
 		
 		WizardCreator wc = new WizardCreator();
 		DeathEaterCreator dc = new DeathEaterCreator();
@@ -27,16 +40,17 @@ public class Main {
 			
 			deathEater = dc.createSorcerer();
 			battle.addDeathEater(deathEater);
-		*/
-
-		
-		battle.generateWizards(new WizardCreator(), 5);	
-		battle.generateDeathEaters(new DeathEaterCreator(), 5);
+		}
 		
 		battle.activePrintEvents();
 		battle.autoBattle();
 		
-		/*
+	}
+
+	public static void battleCase1() {
+		
+		Engine battle = new Engine();
+		
 		Wizard harry = new Auror("Harry Potter", 15, 100);
 		Wizard ron = new Student("Ron Weasley", 15, 100);
 		Wizard hermione = new Student("Hermione Granger", 15, 100);
@@ -47,49 +61,9 @@ public class Main {
 
 		ArrayList<Wizard> wizards = new ArrayList<>(List.of(harry, ron, hermione));
 		ArrayList<DeathEater> deathEaters = new ArrayList<>(List.of(minifollower1, minifollower2, minifollower3));
-		*/
 
-		/*
-		ArrayList<Wizard> wizards = new ArrayList<>();
-		ArrayList<DeathEater> deathEaters = new ArrayList<>();
-		
-		wizards.add(new Auror("Harry Potter", 15, 100));
-		wizards.add(new Student("Ron Weasley", 15, 100));
-		wizards.add(new Student("Hermione Granger", 15, 100));
-		
-		deathEaters.add(new Commander("Rat", 18, 100));
-		deathEaters.add(new Follower("Rat1", 15, 100));
-		deathEaters.add(new Follower("Rat2", 15, 100));
-		
-		Engine.setAI(AI.RANDOM);
-		
-		Engine.autoBattleN(wizards, deathEaters, 350);
-		*/
-		
-		/*
-		Engine battle = new Engine();
-
-		battle.addWizard(harry);
-		battle.addWizard(ron);
-		battle.addWizard(hermione);
-		battle.addDeathEater(minifollower1);
-		battle.addDeathEater(minifollower2);
-		battle.addDeathEater(minifollower3);
-		
-		System.out.println(battle);
-		
 		battle.activePrintEvents();
-		///battle.setAI(AI.RANDOM);
+		Engine.autoBattleN(wizards, deathEaters, 1000);
 		
-		battle.autoBattle();
-		*/
-		
-		/*
-		Spell spell = SpellRepository.getByName("Expelliarmus");
-		
-		System.out.println(harry.cast(spell, minivoldemort));
-		System.out.println(minivoldemort.getHealthPoints());
-		*/
 	}
-
 }
