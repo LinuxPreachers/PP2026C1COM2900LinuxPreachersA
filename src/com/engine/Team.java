@@ -151,7 +151,9 @@ public class Team
 	                spellsUsedInTurn.add(decision.spell());
 	                spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(decision.spell());
 		            outputEvent(s.getName() + " uso " + decision.spell.getName() + " contra " + decision.target.getName() + " debido a " + decision.description);
-	            }
+	            } else {
+			    	outputEvent(s.getName() + " no tiene que hacer ");
+			    }
 			}
 		}
 		
