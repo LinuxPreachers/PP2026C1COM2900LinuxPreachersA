@@ -107,9 +107,11 @@ public class Engine {
 		
 		for (int i=0; i<n; i++) {
 			Engine e = new Engine();
+			
 			for (Wizard wiz : wizards) {
 				e.addWizard(wiz);
 			}
+			
 			for (DeathEater dea : deathEaters) {
 				e.addDeathEater(dea);
 			}
