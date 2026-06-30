@@ -6,12 +6,14 @@ import com.classes.sorcerer.WizardCreator;
 public class Engine {
 	private Team wizards;
 	private Team deathEaters;
+
 	
-	void generateWizards(WizardCreator wizardCreator, int members) { // TODO Creator
+	void generateWizards(WizardCreator wizardCreator, int members) {
 		wizards.generateTeam(wizardCreator, members);
 	}
 	
-	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) { // TODO Creator
+
+	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) {
 		wizards.generateTeam(deathEaterCreator, members);
 	}
 	

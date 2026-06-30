@@ -26,7 +26,6 @@ public class Team {
 	private int dyingPartnerLife = 5;
 	private int dyingEnemyLife = 5;
 	
-	
 	public int getDyingPartnerLife() {
 		return dyingPartnerLife;
 	}
@@ -44,6 +43,9 @@ public class Team {
 	}
 
 	public void attack(Team targetTeam) {
+		
+		spellsUsedInTurn.clear();
+		
 		if (targetTeam.getSorcerers().isEmpty()) {
 			System.err.println("Se intento atacar un equipo sin magos");
 			return;
@@ -159,23 +161,35 @@ public class Team {
 			possibleSpells.removeIf(conditionToRemove);
 		}
 		
-		List<Spell> healthSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == HEALING).toList(); // TODO
-		List<Spell> deffensiveSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == DEFFENSIVE).toList(); // TODO
-		List<Spell> offensiveSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == OFFENSIVE).toList(); // TODO
+		List<Spell> healthSpells = possibleSpells
+				.stream()
+				.filter(spell -> spell.getMagicType() == MagicType.HEALING)
+				.toList(); // TODO
 		
+		List<Spell> defensiveSpells = possibleSpells
+				.stream()
+				.filter(spell -> spell.getMagicType() == MagicType.DEFENSIVE)
+				.toList(); // TODO
 		
+		List<Spell> offensiveSpells = possibleSpells
+				.stream()
+				.filter(spell -> spell.getMagicType() == MagicType.OFFENSIVE)
+				.toList(); // TODO
+
 		Random random = new Random();
 		int randomIndex;
 		
 		randomIndex = random.nextInt(healthSpells.size());
 		Spell healthSpell = healthSpells.get(randomIndex);
-		randomIndex = random.nextInt(deffensiveSpells.size());
-		Spell deffensiveSpell = deffensiveSpells.get(randomIndex);
+		
+		randomIndex = random.nextInt(defensiveSpells.size());
+		Spell deffensiveSpell = defensiveSpells.get(randomIndex);
+		
 		randomIndex = random.nextInt(offensiveSpells.size());
 		Spell offensiveSpell = offensiveSpells.get(randomIndex);
 		
 		if (partnerDying != null && (healthSpell != null || deffensiveSpell != null)) {
-			return healthSpell!=null ? healthSpell : deffensiveSpell;
+			return healthSpell != null ? healthSpell : deffensiveSpell;
 		}
 		
 		if (enemyDying != null && offensiveSpell != null) {
@@ -190,8 +204,9 @@ public class Team {
 		List<Sorcerer> members = new ArrayList<>(sorcerers);
 		members.sort(new ComparatorSorcererLife());
 		
-		int i=0;
-		Sorcerer leastLifeMember=null;
+		int i = 0;
+		Sorcerer leastLifeMember = null;
+		
 		while (leastLifeMember == null && members.get(i).getHealthPoints() < lifeLimit) {
 			if (members.get(i).getHealthPoints() > 0) { // in case there are death members in list
 				leastLifeMember = members.get(i);
@@ -215,4 +230,3 @@ public class Team {
 	}
 	
 }
-
