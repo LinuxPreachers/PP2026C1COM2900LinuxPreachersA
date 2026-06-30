@@ -16,7 +16,7 @@ public class Main {
 		DeathEater minifollower3 = new Follower("Rat2", 15, 100);
 		/*
 		ArrayList<Wizard> wizards = new ArrayList<>(List.of(harry, ron, hermione));
-		ArrayList<DeathEater> deathEaters = new ArrayList<>(List.of(minifollower1, minifollower2, minifollower3, minifollower4));
+		ArrayList<DeathEater> deathEaters = new ArrayList<>(List.of(minifollower1, minifollower2, minifollower3));
 		
 		Engine.autoBattleN(wizards, deathEaters, 1000);
 		*/
@@ -36,6 +36,7 @@ public class Main {
 		///battle.setAI(AI.RANDOM);
 		
 		battle.autoBattle();
+		
 		
 		/*
 		Spell spell = SpellRepository.getByName("Expelliarmus");

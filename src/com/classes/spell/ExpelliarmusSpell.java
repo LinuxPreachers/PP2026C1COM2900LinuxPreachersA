@@ -8,12 +8,14 @@ public class ExpelliarmusSpell extends Spell {
 		BASE_DAMAGE = 5,
 		REQUIRED_LEVEL = 10;
 	
+	private final static double HIT_RATE = 0.95d;
+	
 	public ExpelliarmusSpell() {
-		super("Expelliarmus", MagicType.OFFENSIVE, REQUIRED_LEVEL);
+		super("Expelliarmus", MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override
-	public boolean cast(Sorcerer caster, Sorcerer target) {
+	public boolean apply(Sorcerer caster, Sorcerer target) {
 		
 		if (target.getHealthPoints() <= 0)
 			return false;

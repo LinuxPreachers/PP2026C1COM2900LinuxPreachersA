@@ -19,6 +19,8 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	protected int level; // [0, 100]
 	protected int healthPoints; 
 	protected int maxHealthPoints;
+	protected double accuracy;
+	
 	protected Set<Spell> learnedSpells = new HashSet<>();
 	protected Map<MagicType, Double> knownMagicTypes = new HashMap<>();
 	protected Set<Effect> activeEffects = new HashSet<>();
@@ -42,6 +44,10 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 		return healthPoints; 
 	}
 	
+	public double getAccuracy() { 
+		return accuracy; 
+	}
+	
 	public Set<MagicType> getKnownMagicTypes() {
 		return Collections.unmodifiableSet(knownMagicTypes.keySet());
 	}
@@ -56,7 +62,7 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	
 	@Override
 	public int compareTo(Sorcerer s) {
-		int rv = 0;
+
 		if (this.level - s.level != 0) {
 			return this.level - s.level;
 		}

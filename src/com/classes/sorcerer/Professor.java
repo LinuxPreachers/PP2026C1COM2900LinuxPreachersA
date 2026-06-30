@@ -10,6 +10,8 @@ public class Professor extends Wizard {
 		knownMagicTypes.put(MagicType.HEALING, 1.5);
 		knownMagicTypes.put(MagicType.CONTROL, 1.25);
 		
+		accuracy = 0.9;
+		
 		learnSpells();
 	}
 

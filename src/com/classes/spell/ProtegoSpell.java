@@ -6,13 +6,14 @@ import com.classes.sorcerer.Sorcerer;
 public class ProtegoSpell extends Spell {
 	
 	private final static int REQUIRED_LEVEL = 20;
+	private final static double HIT_RATE = 0.75d;
 	
 	public ProtegoSpell() {
-		super("Protego", MagicType.DEFENSIVE, REQUIRED_LEVEL);
+		super("Protego", MagicType.DEFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override
-	public boolean cast(Sorcerer caster, Sorcerer target) {
+	public boolean apply(Sorcerer caster, Sorcerer target) {
 		
 		double effectiveness = caster.getModifier(this.magicType); 
 		

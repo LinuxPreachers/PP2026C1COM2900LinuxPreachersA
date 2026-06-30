@@ -11,15 +11,17 @@ public class BombardaSpell extends Spell {
 		REQUIRED_LEVEL = 30,
 		EFFECT_TURNS_DURATION = 1;
 	
-	private final static double BURN_PROBABILITY = 0.2d;
+	private final static double 
+		BURN_PROBABILITY = 0.2d,
+		HIT_RATE = 0.5d;
 		
 
 	public BombardaSpell() {
-		super("Bombarda", MagicType.OFFENSIVE, REQUIRED_LEVEL);
+		super("Bombarda", MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override
-	public boolean cast(Sorcerer caster, Sorcerer target) {
+	public boolean apply(Sorcerer caster, Sorcerer target) {
 		
 		double effectiveness = caster.getModifier(this.magicType);
 		
