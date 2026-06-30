@@ -76,9 +76,9 @@ public class Engine {
 			this.playTurn();
 			
 			if (printEvents) {
-				System.out.println("TURN " + turn + " ==========");
+				System.out.print("\n========== TURN " + turn + " ==========");
 				System.out.print(this.getOutputEvents());
-				System.out.println("\nLifes----");
+				System.out.println("\n----Lifes----");
 				System.out.print(this);
 			}
 		}
@@ -88,7 +88,7 @@ public class Engine {
 	}
 	
 	public String toString() {
-		String rv = "\nBattle";
+		String rv = "Battle";
 		rv += wizards;
 		rv += "\n-";
 		rv += deathEaters;
