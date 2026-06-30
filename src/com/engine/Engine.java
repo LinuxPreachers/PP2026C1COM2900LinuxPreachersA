@@ -1,15 +1,17 @@
 package com.engine;
 
+import com.classes.sorcerer.DeathEaterCreator;
+import com.classes.sorcerer.WizardCreator;
+
 public class Engine {
 	private Team wizards;
 	private Team deathEaters;
-	boolean wizardsTurn=true;
 	
 	void generateWizards(WizardCreator wizardCreator, int members) { // TODO Creator
 		wizards.generateTeam(wizardCreator, members);
 	}
 	
-	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) { TODO Creator
+	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) { // TODO Creator
 		wizards.generateTeam(deathEaterCreator, members);
 	}
 	
@@ -18,13 +20,11 @@ public class Engine {
 			return;
 		}
 		
-		if (wizardsTurn) {
-			wizards.attack(deathEaters);
-			wizardsTurn = false;
-		} else {
-			deathEaters.attack(wizards);
-			wizardsTurn = true;
-		}
+		wizards.onTurnStart();
+		deathEaters.onTurnStart();
+		
+		wizards.attack(deathEaters);
+		deathEaters.attack(wizards);
 	}
 	
 	boolean isBattleFinished() {
@@ -32,5 +32,12 @@ public class Engine {
 			return true;
 		}
 		return false;
+	}
+	
+	public String whoWin() {
+		if (!this.isBattleFinished()) {
+			return "Todavia en batalla";
+		}
+		return wizards.hasHealthySorcerers() ? "Wizards" : "DeathEaters";
 	}
 }

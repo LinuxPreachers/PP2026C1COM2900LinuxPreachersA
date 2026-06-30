@@ -13,11 +13,13 @@ import java.util.HashSet;
 
 import com.classes.sorcerer.ComparatorSorcererLife;
 import com.classes.sorcerer.Sorcerer;
+import com.classes.sorcerer.SorcererCreator;
+import com.classes.spell.MagicType;
 import com.classes.spell.Spell;
 
 
 public class Team {
-	private Set<Sorcerer> sorcerers = new HashSet<>();
+	private Set<Sorcerer> sorcerers = new TreeSet<>();
 	private Set<Spell> spellsUsedInTurn = new HashSet<>();
 	private Map<Sorcerer, List<Spell>> spellsUsedPerSorcerer = new HashMap<Sorcerer, List<Spell>>();
 	
@@ -46,37 +48,50 @@ public class Team {
 			System.err.println("Se intento atacar un equipo sin magos");
 			return;
 		}
-
+		
 		// random
 		Random random = new Random();
 		int randomIndex = -1;
 		
-		// get random sorcerer from target team
-	    List<Sorcerer> enemies = new ArrayList<>(targetTeam.sorcerers);
-	    randomIndex = random.nextInt(enemies.size());
-	    Sorcerer enemy = enemies.get(randomIndex);
-	    
-
-		// get random sorcerer from our team
-	    Spell spell = null;	
-	    Sorcerer sorcerer = null;
-	    List<Sorcerer> sorcerers = new ArrayList<>(targetTeam.sorcerers);
-		while (spell == null && !sorcerers.isEmpty()) { // in case some sorcerers cannot use any spell (because forbidden or other reasons)
-			randomIndex = random.nextInt(sorcerers.size());
-			sorcerer = sorcerers.get(randomIndex);
-			sorcerers.remove(randomIndex);			
+		spellsUsedInTurn.clear();
+		
+		for (Sorcerer s : sorcerers) {
 			
-			spell = this.chooseSpellRandom(sorcerer, spellsUsedInTurn, s -> s.getMagicType() == OFFENSIVE);
+			if (s.getHealthPoints() > 0) { // alive
+
+			    randomIndex = random.nextInt(sorcerers.size());
+			    Spell spell = this.chooseSpellRandom(s, null);
+			    
+			    if (spell != null) { // can cast any spell
+
+				    if (spell.getMagicType() == MagicType.OFFENSIVE || spell.getMagicType() == MagicType.DARK_ARTS || spell.getMagicType() == MagicType.CONTROL) {
+				   
+						// get random sorcerer from target team
+					    List<Sorcerer> enemies = new ArrayList<>(targetTeam.sorcerers);
+					    randomIndex = random.nextInt(enemies.size());
+					    Sorcerer enemy = enemies.get(randomIndex);
+				    	
+				    	s.cast(spell, enemy);
+				    } else {
+				    	
+				    	// get the least life sorcerer from our team
+				    	List<Sorcerer> allies = new ArrayList<>(this.sorcerers);
+				    	Sorcerer ally = Collections.min(allies, new ComparatorSorcererLife());
+				    	
+				    	s.cast(spell, ally);
+				    }
+				    
+				    spellsUsedInTurn.add(spell);
+				    spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(spell);
+			    	
+			    }
+				
+			}
+		
 		}
 		
-		if (spell == null) {
-			return;
-		}
+		spellsUsedInTurn.clear();
 		
-		spell.cast(sorcerer, enemy, sorcerer.getModifier(spell.getMagicType())); // TODO: Maybe the responsibility of calling this should be in the sorcerer  
-		
-		spellsUsedInTurn.add(spell);
-		spellsUsedPerSorcerer.getOrDefault(sorcerer, new ArrayList<Spell>()).add(spell);
 	}
 	
 	public boolean addSorcerer(Sorcerer s) {
@@ -108,15 +123,15 @@ public class Team {
 		return false;
 	}
 	
-	public Spell chooseSpellRandom(Sorcerer s, Set<Spell> forbiddenSpells, Predicate<Spell> condition) {
+	public Spell chooseSpellRandom(Sorcerer s, Predicate<Spell> conditionToRemove) {
 	    List<Spell> possibleSpells = new ArrayList<>(s.getLearnedSpells());
 	    
-		for (Spell forbiddenSpell : forbiddenSpells) {
+		for (Spell forbiddenSpell : this.spellsUsedInTurn) {
 			possibleSpells.remove(forbiddenSpell);
 		}
 		
-		if (condition != null) {
-			possibleSpells.removeIf(condition);
+		if (conditionToRemove != null) {
+			possibleSpells.removeIf(conditionToRemove);
 		}
 		
 		if (possibleSpells.isEmpty()) {
@@ -129,17 +144,19 @@ public class Team {
 	    return possibleSpells.get(randomIndex);
 	}
 	
-	public Spell chooseSpellAI(Sorcerer s, Team targetTeam, Set<Spell> forbiddenSpells, Predicate<Spell> condition) {
+	/*
+	public Spell chooseSpellAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditionToRemove) {
+		
 		Sorcerer partnerDying = this.memberDying(dyingPartnerLife);
 		Sorcerer enemyDying = targetTeam.memberDying(dyingEnemyLife);
 		
 		List<Spell> possibleSpells = new ArrayList<>(s.getLearnedSpells());
-		for (Spell forbiddenSpell : forbiddenSpells) {
+		for (Spell forbiddenSpell : this.spellsUsedInTurn) {
 			possibleSpells.remove(forbiddenSpell);
 		}
 		
-		if (condition != null) {
-			possibleSpells.removeIf(condition);
+		if (conditionToRemove != null) {
+			possibleSpells.removeIf(conditionToRemove);
 		}
 		
 		List<Spell> healthSpells = possibleSpells.stream().filter(spell -> spell.getMagicType() == HEALING).toList(); // TODO
@@ -167,7 +184,8 @@ public class Team {
 		
 		return this.chooseSpellRandom(s, forbiddenSpells, null);
 	}
-	
+	*/
+
 	public Sorcerer memberDying(int lifeLimit) {
 		List<Sorcerer> members = new ArrayList<>(sorcerers);
 		members.sort(new ComparatorSorcererLife());
@@ -184,9 +202,15 @@ public class Team {
 		return leastLifeMember;
 	}
 	
-	public generateTeam(SorcererCreator sorcererCreator, int members) {
+	public void generateTeam(SorcererCreator sorcererCreator, int members) {
 		for (int i=0; i<members; i++) {
 			this.addSorcerer(sorcererCreator.createSorcerer());
+		}
+	}
+	
+	public void onTurnStart() {
+		for (Sorcerer s : sorcerers) {
+			s.onTurnStart();
 		}
 	}
 	
