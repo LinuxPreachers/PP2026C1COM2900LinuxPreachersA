@@ -331,6 +331,10 @@ public class Team
 		
 		List<Sorcerer> members = new ArrayList<>(sorcerers);
 		
+		for (Sorcerer s : sorcerers) {
+			s.onTurnStart();
+		}
+		
 		for (int i = 0; i < sorcerers.size(); i++) {
 			
 			Sorcerer s = members.get(i);
@@ -339,10 +343,6 @@ public class Team
 				sorcerers.remove(s);
 				deadSorcerers.add(s);
 			}
-		}
-		
-		for (Sorcerer s : sorcerers) {
-			s.onTurnStart();
 		}
 	}
 	
@@ -358,7 +358,7 @@ public class Team
 		}
 		
 		for (Sorcerer s : deadSorcerers) {
-			rv += "\n(M)" + s.getName() + " / " + s.getHealthPoints() + " ❤︎ / lvl" + s.getLevel();
+			rv += "\n(M)" + s.getName() + " / " + 0 + " ❤︎ / lvl" + s.getLevel();
 		}
 		
 		return rv;
