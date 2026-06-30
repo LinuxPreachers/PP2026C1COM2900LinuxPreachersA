@@ -27,7 +27,7 @@ public class Team
 	private int dyingPartnerLife = 5;
 	private int dyingEnemyLife = 5;
 	private boolean printEvents = false;
-	private String outputEvents;
+	private String outputEvents="";
 	
 	public static record DecisionAI(Spell spell, Sorcerer target) {}
 	
