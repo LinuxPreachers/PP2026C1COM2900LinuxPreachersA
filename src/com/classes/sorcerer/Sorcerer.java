@@ -162,4 +162,8 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 		
 		return spell.cast(this, target);
 	}
+	
+	public String toString() {
+		return "Sourcerer[name=" + this.name + "|life=" + this.healthPoints + "|lvl" + this.level  + "]";
+	}
 }

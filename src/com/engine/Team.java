@@ -25,6 +25,8 @@ public class Team {
 	
 	private int dyingPartnerLife = 5;
 	private int dyingEnemyLife = 5;
+	private boolean printEvents = false;
+	private String outputEvents;
 	
 	public int getDyingPartnerLife() {
 		return dyingPartnerLife;
@@ -41,8 +43,29 @@ public class Team {
 	public void setDyingEnemyLife(int dyingEnemyLife) {
 		this.dyingEnemyLife = dyingEnemyLife;
 	}
+	
+	public void activePrintEvents() {
+		printEvents=true;
+	}
+	
+	public void deactivePrintEvents() {
+		printEvents=false;
+	}
+	
+	public String consumeEvents() {
+		if (!printEvents) {
+			return "";
+		}
+		String rv = outputEvents;
+		outputEvents = "";
+		return rv;
+	}
+	
+	private void outputEvent(String out) {
+		outputEvents += "\n" + out;
+	}
 
-	public void attack(Team targetTeam) {
+	public void attackRandom(Team targetTeam) {
 		
 		spellsUsedInTurn.clear();
 		
@@ -74,6 +97,9 @@ public class Team {
 					    Sorcerer enemy = enemies.get(randomIndex);
 				    	
 				    	s.cast(spell, enemy);
+				    	
+				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + enemy.getName());
+				    	
 				    } else {
 				    	
 				    	// get the least life sorcerer from our team
@@ -81,10 +107,16 @@ public class Team {
 				    	Sorcerer ally = Collections.min(allies, new ComparatorSorcererLife());
 				    	
 				    	s.cast(spell, ally);
+				    	
+				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + ally.getName());
 				    }
 				    
 				    spellsUsedInTurn.add(spell);
 				    spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(spell);
+			    	
+			    } else {
+			    	
+			    	outputEvent(s.getName() + " no tiene que hacer ");
 			    	
 			    }
 				
@@ -227,6 +259,22 @@ public class Team {
 		for (Sorcerer s : sorcerers) {
 			s.onTurnStart();
 		}
+	}
+	
+	public String toString() {
+		/*
+		String rv = "Team[ ";
+		for (Sorcerer s : sorcerers) {
+			rv += s + ",";
+		}
+		rv += "]";
+		return rv;
+		*/
+		String rv = "\nTeam";
+		for (Sorcerer s : sorcerers) {
+			rv += "\n" + s.getName() + " / " + s.getHealthPoints() + " ❤︎ / lvl" + s.getLevel();
+		}
+		return rv;
 	}
 	
 }

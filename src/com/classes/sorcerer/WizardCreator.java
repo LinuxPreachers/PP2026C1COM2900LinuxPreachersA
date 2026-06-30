@@ -24,7 +24,7 @@ public class WizardCreator extends SorcererCreator{
             case 0:
                 return new Student(
                     randomName(STUDENT_NAMES),
-                    randomLevel(0, 40),
+                    randomLevel(5, 40),
                     MAX_LIFE_POINTS 
                 );
 

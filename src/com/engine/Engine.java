@@ -1,20 +1,30 @@
 package com.engine;
 
+import com.classes.sorcerer.DeathEater;
 import com.classes.sorcerer.DeathEaterCreator;
+import com.classes.sorcerer.Wizard;
 import com.classes.sorcerer.WizardCreator;
 
 public class Engine {
-	private Team wizards;
-	private Team deathEaters;
+	private Team wizards = new Team();
+	private Team deathEaters = new Team();
+	private boolean printEvents = false;
 
 	
 	void generateWizards(WizardCreator wizardCreator, int members) {
 		wizards.generateTeam(wizardCreator, members);
 	}
 	
-
+	public void addWizard(Wizard w) {
+		wizards.addSorcerer(w);
+	}
+	
 	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) {
 		wizards.generateTeam(deathEaterCreator, members);
+	}
+	
+	public void addDeathEater(DeathEater de) {
+		deathEaters.addSorcerer(de);
 	}
 	
 	void playTurn() {
@@ -25,8 +35,8 @@ public class Engine {
 		wizards.onTurnStart();
 		deathEaters.onTurnStart();
 		
-		wizards.attack(deathEaters);
-		deathEaters.attack(wizards);
+		wizards.attackRandom(deathEaters);
+		deathEaters.attackRandom(wizards);
 	}
 	
 	boolean isBattleFinished() {
@@ -41,5 +51,55 @@ public class Engine {
 			return "Todavia en batalla";
 		}
 		return wizards.hasHealthySorcerers() ? "Wizards" : "DeathEaters";
+	}
+	
+	public void activePrintEvents() {
+		printEvents=true;
+		wizards.activePrintEvents();
+		deathEaters.activePrintEvents();
+	}
+	
+	public void deactivePrintEvents() {
+		printEvents=false;
+		wizards.deactivePrintEvents();
+		deathEaters.deactivePrintEvents();
+	}
+	
+	public void autoBattle() {
+		
+		int turn = 0;
+		
+		while (!this.isBattleFinished()) {
+
+			turn++;
+
+			this.playTurn();
+			
+			if (printEvents) {
+				System.out.println("TURN " + turn + " ==========");
+				System.out.print(this.getOutputEvents());
+				System.out.println("\nLifes----");
+				System.out.print(this);
+			}
+		}
+		
+		System.out.println("Winners: " + this.whoWin());
+		
+	}
+	
+	public String toString() {
+		String rv = "\nBattle";
+		rv += wizards;
+		rv += "\n-";
+		rv += deathEaters;
+		rv += "\n-\n";
+		return rv;
+	}
+	
+	public String getOutputEvents() {
+		String wiz, dee;
+		wiz = wizards.consumeEvents();
+		dee = deathEaters.consumeEvents();
+		return wiz + dee;
 	}
 }
