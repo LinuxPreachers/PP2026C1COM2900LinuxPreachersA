@@ -22,6 +22,7 @@ import com.classes.spell.SpellRepository;
 public class Team 
 {
 	private Set<Sorcerer> sorcerers = new TreeSet<>();
+	private Set<Sorcerer> deadSorcerers = new TreeSet<>();
 	private Set<Spell> spellsUsedInTurn = new HashSet<>();
 	private Map<Sorcerer, List<Spell>> spellsUsedPerSorcerer = new HashMap<Sorcerer, List<Spell>>();
 	
@@ -327,6 +328,19 @@ public class Team
 	}
 	
 	public void onTurnStart() {
+		
+		List<Sorcerer> members = new ArrayList<>(sorcerers);
+		
+		for (int i = 0; i < sorcerers.size(); i++) {
+			
+			Sorcerer s = members.get(i);
+			
+			if (s.getHealthPoints() <= 0) {
+				sorcerers.remove(s);
+				deadSorcerers.add(s);
+			}
+		}
+		
 		for (Sorcerer s : sorcerers) {
 			s.onTurnStart();
 		}
@@ -335,8 +349,18 @@ public class Team
 	public String toString() {
 		String rv = "\nTeam";
 		for (Sorcerer s : sorcerers) {
-			rv += "\n" + s.getName() + " / " + s.getHealthPoints() + " ❤︎ / lvl" + s.getLevel();
+			rv += "\n";
+			if (s.getHealthPoints() <= 0) {
+				rv += "(M)";
+			}
+			rv += s.getName() + " / " + s.getHealthPoints() + " ❤︎ / lvl" + s.getLevel();
+			
 		}
+		
+		for (Sorcerer s : deadSorcerers) {
+			rv += "\n(M)" + s.getName() + " / " + s.getHealthPoints() + " ❤︎ / lvl" + s.getLevel();
+		}
+		
 		return rv;
 	}
 	
