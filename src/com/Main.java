@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Wizard harry = new Student("Harry Potter", 15, 100);
+		Wizard harry = new Auror("Harry Potter", 15, 100);
 		Wizard ron = new Student("Ron Weasley", 12, 100);
 		Wizard hermione = new Student("Hermione Granger", 20, 100);
 		

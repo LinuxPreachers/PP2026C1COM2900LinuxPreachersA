@@ -152,6 +152,8 @@ public class Team
 	                spellsUsedInTurn.add(decision.spell());
 	                spellsUsedPerSorcerer.getOrDefault(s, new ArrayList<Spell>()).add(decision.spell());
 	            }
+	            
+	            outputEvent(s.getName() + " uso " + decision.spell.getName() + " contra " + decision.target.getName());
 			}
 		
 		}
@@ -272,7 +274,7 @@ public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditi
 	    int deltaLevel = 5;
 	    Sorcerer similarEnemy = null;
 	    for (Sorcerer enemy : targetTeam.sorcerers) {
-	        if (Math.abs(enemy.getLevel() - sorcererLevel) <= deltaLevel) {
+	        if (enemy.getHealthPoints() > 0 && Math.abs(enemy.getLevel() - sorcererLevel) <= deltaLevel) {
 	            similarEnemy = enemy;
 	            break;
 	        }
@@ -306,7 +308,7 @@ public DecisionAI chooseAI(Sorcerer s, Team targetTeam, Predicate<Spell> conditi
 		int i = 0;
 		Sorcerer leastLifeMember = null;
 		
-		while (leastLifeMember == null && members.get(i).getHealthPoints() < lifeLimit) {
+		while (i < members.size() && leastLifeMember == null && members.get(i).getHealthPoints() < lifeLimit) {
 			if (members.get(i).getHealthPoints() > 0) { // in case there are death members in list
 				leastLifeMember = members.get(i);
 			}

@@ -35,8 +35,8 @@ public class Engine {
 		wizards.onTurnStart();
 		deathEaters.onTurnStart();
 		
-		wizards.attackRandom(deathEaters);
-		deathEaters.attackRandom(wizards);
+		wizards.attackAI(deathEaters);
+		deathEaters.attackAI(wizards);
 	}
 	
 	boolean isBattleFinished() {
