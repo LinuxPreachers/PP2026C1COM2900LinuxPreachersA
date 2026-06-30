@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.classes.effect.Effect;
@@ -55,9 +56,23 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	
 	@Override
 	public int compareTo(Sorcerer s) {
-		return this.level - s.level;
+		int rv = 0;
+		if (this.level - s.level != 0) {
+			return this.level - s.level;
+		}
+		if (this.healthPoints - s.healthPoints != 0) {
+			return this.healthPoints - s.healthPoints;
+		}
+		if (this.name.compareTo(s.name) != 0) {
+			return this.name.compareTo(s.name);
+		}
+		if (!Objects.equals(s, this)) {
+			return 1;
+		}
+		return 0;
 	}
 	
+
 	protected void learnSpells() {
 		for (Spell spell : SpellRepository.SPELLS) {
 			
