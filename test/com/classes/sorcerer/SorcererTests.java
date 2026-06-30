@@ -17,9 +17,11 @@ class SorcererTests {
 	int voldemortInitialHP = 600;
 	int harryInitialHP = 400;
 	
+	int harryLevel = 10;
+	
 	@BeforeEach
 	void prepareTests() {
-		harry = new Student("Harry Potter", 10, harryInitialHP);
+		harry = new Student("Harry Potter", harryLevel, harryInitialHP);
 		voldemort = new Commander("Voldemort", 80, voldemortInitialHP);
 	}
 	
@@ -28,9 +30,9 @@ class SorcererTests {
 		
 		// Assert
 		assertEquals("Harry Potter", harry.getName(), "El nombre del mago no es correcto.");
-		assertEquals(10, harry.getLevel(), "El nivel del mago no es correcto.");
+		assertEquals(harryLevel, harry.getLevel(), "El nivel del mago no es correcto.");
 		assertEquals(harryInitialHP, harry.getHealthPoints(), "Los puntos de vida iniciales no son correctos.");
-		assertTrue(harry.getLearnedSpells().isEmpty(), "El mago no debería tener hechizos aprendidos al inicio.");
+		assertTrue(harry.getLearnedSpells().isEmpty(), "El mago debería tener hechizos aprendidos al inicio.");
 	}
 	
 	@Test

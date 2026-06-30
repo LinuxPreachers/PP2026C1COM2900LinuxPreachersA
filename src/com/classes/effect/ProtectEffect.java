@@ -3,8 +3,8 @@ import com.classes.sorcerer.Sorcerer;
 
 public class ProtectEffect extends Effect 
 {
-	private final static int TURNS_DURATION = 2;
-	private final static double BASE_PROTECTION_PERCENTAGE = 0.25d;
+	public final static int TURNS_DURATION = 2;
+	public final static double BASE_PROTECTION_PERCENTAGE = 0.25d;
 		
     private double casterEffectiveness;
 

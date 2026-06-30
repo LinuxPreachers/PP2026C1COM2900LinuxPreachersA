@@ -7,5 +7,7 @@ public class Commander extends DeathEater{
 		knownMagicTypes.put(MagicType.OFFENSIVE, 1.75);
 		knownMagicTypes.put(MagicType.CONTROL, 1.75);
 		knownMagicTypes.put(MagicType.DARK_ARTS, 1.75);
+		
+		learnSpells();
 	}
 }

@@ -7,6 +7,8 @@ public class Follower extends DeathEater {
 		super(name, magicLevel, healthPoints);
         knownMagicTypes.put(MagicType.OFFENSIVE, 1.5);
         knownMagicTypes.put(MagicType.DARK_ARTS, 1.3);
+        
+        learnSpells();
     }
 
 }

@@ -1,6 +1,5 @@
 package com.classes.spell;
 import com.classes.sorcerer.Sorcerer;
-import com.classes.effect.Effect;
 
 public abstract class Spell {
 	protected String name;

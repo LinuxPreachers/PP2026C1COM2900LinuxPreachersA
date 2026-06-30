@@ -22,17 +22,12 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	protected Map<MagicType, Double> knownMagicTypes = new HashMap<>();
 	protected Set<Effect> activeEffects = new HashSet<>();
 	
-	/* Constructores */
-	
-	public Sorcerer(String name, int level, int healthPoints)
-	{
+	public Sorcerer(String name, int level, int healthPoints) {
 		this.name = name;
 		this.level = level;
 		this.healthPoints = healthPoints;
 		this.maxHealthPoints = healthPoints;
 	}
-	
-	// Getters
 	
 	public String getName() {
 		return name; 
@@ -58,14 +53,12 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	    return knownMagicTypes.getOrDefault(magicType, 1d);
 	}
 	
-	// Metodos
-	
 	@Override
 	public int compareTo(Sorcerer s) {
 		return this.level - s.level;
 	}
 	
-	public void learnSpells() {
+	protected void learnSpells() {
 		for (Spell spell : SpellRepository.SPELLS) {
 			
 			boolean knowsType = knownMagicTypes.containsKey(spell.getMagicType());
@@ -76,10 +69,6 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 		}
 	}
 	
-	/*
-	 * Retorna true en caso de que el personaje ya no tenga puntos
-	 * de vida luego de recibir el danio
-	 */
 	public void heal(int points) {
 		if (points <= 0) {
 			throw new IllegalArgumentException("Heal points cannot be negative or zero.");
@@ -152,18 +141,10 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
         activeEffects.removeIf(Effect::isExpired);
     }
 	
-	public boolean cast(Spell spell, Sorcerer target) {
+	public boolean canAct() {
 		
-		if (spell == null || target == null | !learnedSpells.contains(spell))
+		if (healthPoints <= 0)
 			return false;
-		
-		return spell.cast(this, target);
-	}
-	
-	public boolean attack() {
-		if (healthPoints == 0) {
-			return false;
-		}
 		
 		for (Effect effect : activeEffects) {
             if (!effect.canAttack()) {
@@ -171,6 +152,14 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
             }
         }
 		
-        return true;
+		return true;
+	}
+	
+	public boolean cast(Spell spell, Sorcerer target) {
+		
+		if (!canAct() || spell == null || target == null || !learnedSpells.contains(spell))
+			return false;
+		
+		return spell.cast(this, target);
 	}
 }
