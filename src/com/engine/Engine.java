@@ -3,6 +3,7 @@ package com.engine;
 import com.classes.sorcerer.DeathEater;
 import com.classes.sorcerer.DeathEaterCreator;
 import com.classes.sorcerer.Sorcerer;
+import com.classes.sorcerer.SorcererCreator;
 import com.classes.sorcerer.Wizard;
 import com.classes.sorcerer.WizardCreator;
 
@@ -20,7 +21,7 @@ public class Engine {
 	private boolean printEvents = false;
 	private static AI actualAI = AI.STRATEGIC;
 	
-	void generateWizards(WizardCreator wizardCreator, int members) {
+	public void generateWizards(SorcererCreator wizardCreator, int members) {
 		wizards.generateTeam(wizardCreator, members);
 	}
 	
@@ -28,8 +29,8 @@ public class Engine {
 		wizards.addSorcerer(w);
 	}
 	
-	void generateDeathEaters(DeathEaterCreator deathEaterCreator, int members) {
-		wizards.generateTeam(deathEaterCreator, members);
+	public void generateDeathEaters(SorcererCreator deathEaterCreator, int members) {
+		deathEaters.generateTeam(deathEaterCreator, members);
 	}
 	
 	public void addDeathEater(Sorcerer de) {

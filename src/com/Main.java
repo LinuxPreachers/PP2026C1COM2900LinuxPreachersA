@@ -12,18 +12,26 @@ public class Main {
 		
 		Engine battle = new Engine();
 		
+		/*
+		ArrayList<Wizard> wizards = new ArrayList<>());
+		ArrayList<DeathEater> deathEaters = new ArrayList<>());
+		
 		WizardCreator wc = new WizardCreator();
 		DeathEaterCreator dc = new DeathEaterCreator();
-		
+
 		Sorcerer wizard, deathEater;
-		
+
 		for (int i = 0; i < 5; i++) {
 			wizard = wc.createSorcerer();
 			battle.addWizard(wizard);
 			
 			deathEater = dc.createSorcerer();
 			battle.addDeathEater(deathEater);
-		}
+		*/
+
+		
+		battle.generateWizards(new WizardCreator(), 5);	
+		battle.generateDeathEaters(new DeathEaterCreator(), 5);
 		
 		battle.activePrintEvents();
 		battle.autoBattle();
