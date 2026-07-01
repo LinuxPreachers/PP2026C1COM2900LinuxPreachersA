@@ -202,7 +202,10 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	
 	public boolean cast(Spell spell, Sorcerer target) {
 		
-		if (!canAct() || spell == null || target == null || !learnedSpells.contains(spell))
+		if (spell == null || target == null)
+			throw new IllegalArgumentException("Se debe indicar un hechizo y un objetivo");
+		
+		if (!canAct() || !learnedSpells.contains(spell))
 			return false;
 		
 		return spell.cast(this, target);
@@ -210,7 +213,7 @@ public abstract class Sorcerer implements Comparable<Sorcerer>
 	
 	@Override
 	public String toString() {
-		return "Sourcerer[name=" + this.name + "|life=" + this.healthPoints + "|lvl" + this.level  + "]";
+		return "Sorcerer[name=" + this.name + "|life=" + this.healthPoints + "|lvl" + this.level  + "]";
 	}
 	
 	public void resetForBattle() {

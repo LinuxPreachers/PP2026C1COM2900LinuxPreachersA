@@ -1,13 +1,10 @@
 package com.engine;
 
 import com.classes.sorcerer.DeathEater;
-import com.classes.sorcerer.DeathEaterCreator;
 import com.classes.sorcerer.Sorcerer;
 import com.classes.sorcerer.SorcererCreator;
 import com.classes.sorcerer.Wizard;
-import com.classes.sorcerer.WizardCreator;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Engine {
@@ -135,7 +132,7 @@ public class Engine {
 		System.out.println("AUTOBATTLED N=" + n + " W:" + w + " D:" + d);
 		
 		if (w!=d) {
-			System.out.println("Los " + (w > d ? "magos" : "mortifagos") + "han ganado mas batallas");
+			System.out.println("Los " + (w > d ? "magos" : "mortifagos") + " han ganado mas batallas");
 		} else {
 			System.out.println("Los bandos han empatado!");
 		}

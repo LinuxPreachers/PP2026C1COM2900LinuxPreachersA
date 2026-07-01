@@ -5,6 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.classes.effect.BurnEffect;
+import com.classes.effect.HealEffect;
+import com.classes.effect.PetrifyEffect;
+import com.classes.effect.ProtectEffect;
+import com.classes.effect.VampireEffect;
 import com.classes.sorcerer.Commander;
 import com.classes.sorcerer.Professor;
 import com.classes.sorcerer.Sorcerer;
@@ -30,12 +35,12 @@ class SpellTests {
 	void expelliarmusCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Expelliarmus");
+		spell = SpellRepository.getByName(ExpelliarmusSpell.NAME);
 		double effectiveness = harry.getModifier(spell.magicType);
 		int damage = (int) Math.round(ExpelliarmusSpell.BASE_DAMAGE * effectiveness);
 		
 		// Act
-		result = harry.cast(spell, voldemort);
+		result = spell.apply(harry, voldemort);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
@@ -48,10 +53,10 @@ class SpellTests {
 	void avadaKedavraCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Avada Kedavra");
+		spell = SpellRepository.getByName(AvadaKedavraSpell.NAME);
 		
 		// Act
-		result = voldemort.cast(spell, harry);
+		result = spell.apply(voldemort, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
@@ -64,12 +69,12 @@ class SpellTests {
 	void bombardaCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Bombarda");
+		spell = SpellRepository.getByName(BombardaSpell.NAME);
 		double effectiveness = voldemort.getModifier(spell.magicType);
 		int damage = (int) Math.round(BombardaSpell.BASE_DAMAGE * effectiveness);
 		
 		// Act
-		result = voldemort.cast(spell, harry);
+		result = spell.apply(voldemort, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
@@ -85,12 +90,12 @@ class SpellTests {
 		// Arrange
 		harry.receiveDamage(350);
 		int hpBeforeCast = harry.getHealthPoints();
-		spell = SpellRepository.getByName("Episkey");
+		spell = SpellRepository.getByName(EpiskeySpell.NAME);
 		double effectiveness = harry.getModifier(spell.magicType);
 		int healAmount = (int) Math.round(EpiskeySpell.BASE_HEAL * effectiveness);
 		
 		// Act
-		result = harry.cast(spell, harry);
+		result = spell.apply(harry, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
@@ -103,16 +108,16 @@ class SpellTests {
 	void incendioCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Incendio");
+		spell = SpellRepository.getByName(IncendioSpell.NAME);
 		double effectiveness = voldemort.getModifier(spell.magicType);
 		int damage = (int) Math.round(IncendioSpell.BASE_DAMAGE * effectiveness);
 		
 		// Act
-		result = voldemort.cast(spell, harry);
+		result = spell.apply(voldemort, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no realizó el daño correcto.");
-		assertTrue(harry.hasEffect("Quemadura"), spell.getName() + " no aplicó el efecto correcto.");
+		assertTrue(harry.hasEffect(BurnEffect.NAME), spell.getName() + " no aplicó el efecto correcto.");
 		assertEquals(harryInitialHP - damage, harry.getHealthPoints(), spell.getName() + " no realizó el daño correcto.");
 		
 		// Annihilate
@@ -122,14 +127,14 @@ class SpellTests {
 	void petrificusTotalusCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Petrificus totalus");
+		spell = SpellRepository.getByName(PetrificusTotalusSpell.NAME);
 		
 		// Act
-		result = voldemort.cast(spell, harry);
+		result = spell.apply(voldemort, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
-		assertTrue(harry.hasEffect("Petrificción"), spell.getName() + " no aplicó el efecto correcto.");
+		assertTrue(harry.hasEffect(PetrifyEffect.NAME), spell.getName() + " no aplicó el efecto correcto.");
 		assertFalse(harry.canAct(), spell.getName() + " no aplicó el efecto de petrificación.");
 		
 		// Annihilate
@@ -139,14 +144,14 @@ class SpellTests {
 	void protegoCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Protego");
+		spell = SpellRepository.getByName(ProtegoSpell.NAME);
 		
 		// Act
-		result = minerva.cast(spell, harry);
+		result = spell.apply(minerva, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
-		assertTrue(harry.hasEffect("Protección"), spell.getName() + " no aplicó el efecto correcto.");
+		assertTrue(harry.hasEffect(ProtectEffect.NAME), spell.getName() + " no aplicó el efecto correcto.");
 		
 		// Annihilate
 	}
@@ -155,17 +160,17 @@ class SpellTests {
 	void sectumsempraCast() {
 		
 		// Arrange
-		spell = SpellRepository.getByName("Sectumsempra");
+		spell = SpellRepository.getByName(SectumsempraSpell.NAME);
 		double effectiveness = voldemort.getModifier(spell.magicType);
 		int damage = (int) Math.round(SectumsempraSpell.BASE_DAMAGE * effectiveness);
 		
 		// Act
-		result = voldemort.cast(spell, harry);
+		result = spell.apply(voldemort, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
 		assertEquals(harryInitialHP - damage, harry.getHealthPoints(), spell.getName() + " no realizó el daño correcto.");
-		assertTrue(harry.hasEffect("Vampirismo"), spell.getName() + " no aplicó el efecto correcto.");
+		assertTrue(harry.hasEffect(VampireEffect.NAME), spell.getName() + " no aplicó el efecto correcto.");
 		
 		// Annihilate
 	}
@@ -176,17 +181,17 @@ class SpellTests {
 		// Arrange
 		harry.receiveDamage(370);
 		int hpBeforeCast = harry.getHealthPoints();
-		spell = SpellRepository.getByName("Vulnera sanentur");
+		spell = SpellRepository.getByName(VulneraSanenturSpell.NAME);
 		double effectiveness = minerva.getModifier(spell.magicType);
 		int healAmount = (int) Math.round(VulneraSanenturSpell.BASE_HEAL * effectiveness);
 		
 		// Act
-		result = minerva.cast(spell, harry);
+		result = spell.apply(minerva, harry);
 		
 		// Assert
 		assertTrue(result, spell.getName() + " no se ejecutó correctamente.");
 		assertEquals(hpBeforeCast + healAmount, harry.getHealthPoints(), spell.getName() + " no realizó la curación correcta.");
-		assertTrue(harry.hasEffect("Curación"), spell.getName() + " no aplicó el efecto correcto.");
+		assertTrue(harry.hasEffect(HealEffect.NAME), spell.getName() + " no aplicó el efecto correcto.");
 		
 		// Annihilate
 	}

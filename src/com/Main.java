@@ -2,7 +2,6 @@ package com;
 
 import com.classes.sorcerer.*;
 import com.engine.Engine;
-import com.engine.Engine.AI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +9,7 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
-		
-		Main.superRandomCase();
-		
+		Main.battleCase1();
 	}
 	
 	public static void superRandomCase() {

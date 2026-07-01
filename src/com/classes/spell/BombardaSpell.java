@@ -11,13 +11,15 @@ public class BombardaSpell extends Spell {
 		REQUIRED_LEVEL = 30,
 		EFFECT_TURNS_DURATION = 1;
 	
-	private final static double 
+	public final static double 
 		BURN_PROBABILITY = 0.2d,
 		HIT_RATE = 0.5d;
+	
+	public final static String NAME = "Bombarda";
 		
 
 	public BombardaSpell() {
-		super("Bombarda", MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.classes.spell.AvadaKedavraSpell;
+import com.classes.spell.ExpelliarmusSpell;
 import com.classes.spell.Spell;
 import com.classes.spell.SpellRepository;
 
@@ -45,10 +47,10 @@ class SorcererTests {
 			voldemort.getName() + " (nivel 80) debería conocer más hechizos que " + harry.getName() + " (nivel 10)."
 		);
 		
-		spell = SpellRepository.getByName("Expelliarmus");
+		spell = SpellRepository.getByName(ExpelliarmusSpell.NAME);
 		assertTrue(harry.getLearnedSpells().contains(spell), "Harry debería conocer Expelliarmus (nivel 10, ofensivo).");
 		
-		spell = SpellRepository.getByName("Avada Kedavra");
+		spell = SpellRepository.getByName(AvadaKedavraSpell.NAME);
 		assertFalse(harry.getLearnedSpells().contains(spell), "Harry no debería conocer Avada Kedavra (no conoce artes oscuras).");
 		assertTrue(voldemort.getLearnedSpells().contains(spell), "Voldemort debería conocer Avada Kedavra (nivel 80, artes oscuras).");
 	}

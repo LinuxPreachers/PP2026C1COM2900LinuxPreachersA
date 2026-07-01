@@ -9,10 +9,11 @@ public class IncendioSpell extends Spell {
 		REQUIRED_LEVEL = 20,
 		TURNS_DURATION = 2;
 	
-	private final static double HIT_RATE = 0.7d;
+	public final static double HIT_RATE = 0.7d;
+	public final static String NAME = "Incendio";
 	
 	public IncendioSpell() {
-		super("Incendio", MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

@@ -5,12 +5,13 @@ public class ProtectEffect extends Effect
 {
 	public final static int TURNS_DURATION = 2;
 	public final static double BASE_PROTECTION_PERCENTAGE = 0.25d;
+	public final static String NAME = "Protección";
 		
     private double casterEffectiveness;
 
     public ProtectEffect(double casterEffectiveness) 
     {
-        super("Protección", TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
+        super(NAME, TURNS_DURATION, Effect.EffectPolarity.BENEFICIAL);
 		this.casterEffectiveness = casterEffectiveness;
     }
     

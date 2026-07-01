@@ -10,10 +10,11 @@ public class VulneraSanenturSpell extends Spell {
 		BASE_HEAL = 40,
 		REQUIRED_LEVEL = 25;
 	
-	private final static double HIT_RATE = 0.6d;
+	public final static double HIT_RATE = 0.6d;
+	public final static String NAME = "Vulnera sanentur";
 
 	public VulneraSanenturSpell() {
-		super("Vulnera sanentur", MagicType.HEALING, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.HEALING, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

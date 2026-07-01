@@ -9,9 +9,10 @@ public class PetrificusTotalusSpell extends Spell {
 		EFFECT_TURNS_DURATION = 3;
 	
 	private final static double HIT_RATE = 0.8d;
+	public final static String NAME = "Petrificus totalus";
 
 	public PetrificusTotalusSpell() {
-		super("Petrificus totalus", MagicType.CONTROL, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.CONTROL, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

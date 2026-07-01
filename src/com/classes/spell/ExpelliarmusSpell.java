@@ -8,10 +8,11 @@ public class ExpelliarmusSpell extends Spell {
 		BASE_DAMAGE = 5,
 		REQUIRED_LEVEL = 10;
 	
-	private final static double HIT_RATE = 0.95d;
+	public final static double HIT_RATE = 0.95d;
+	public final static String NAME = "Expelliarmus";
 	
 	public ExpelliarmusSpell() {
-		super("Expelliarmus", MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

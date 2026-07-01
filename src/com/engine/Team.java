@@ -14,6 +14,7 @@ import java.util.HashSet;
 import com.classes.sorcerer.ComparatorSorcererLife;
 import com.classes.sorcerer.Sorcerer;
 import com.classes.sorcerer.SorcererCreator;
+import com.classes.spell.ExpelliarmusSpell;
 import com.classes.spell.MagicType;
 import com.classes.spell.Spell;
 import com.classes.spell.SpellRepository;
@@ -24,7 +25,7 @@ public class Team
 	private Set<Sorcerer> sorcerers = new TreeSet<>();
 	private Set<Sorcerer> deadSorcerers = new TreeSet<>();
 	private Set<Spell> spellsUsedInTurn = new HashSet<>();
-	private Map<Sorcerer, List<Spell>> spellsUsedPerSorcerer = new HashMap<Sorcerer, List<Spell>>();
+	private Map<Sorcerer, List<Spell>> spellsUsedPerSorcerer = new HashMap<>();
 	
 	private int dyingPartnerLife = 5;
 	private int dyingEnemyLife = 5;
@@ -105,7 +106,7 @@ public class Team
 				    	
 					    success = s.cast(spell, enemy);
 				    	
-				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + enemy.getName() + (!success ? " pero FALLO" : ""));
+				    	outputEvent(s.getName() + " uso " + spell.getName() + " contra " + enemy.getName() + (!success ? " pero falló!" : ""));
 				    	
 				    } else {
 				    	
@@ -205,8 +206,9 @@ public class Team
 			possibleSpells.removeIf(conditionToRemove);
 		}
 		
+		// Elige un hechizo por default de forma alternada.
 		if (possibleSpells.isEmpty()) {
-			return turnNumber % 2 == 0 ? SpellRepository.getByName("Expelliarmus") : null; // Elije un hechizo por default de forma alternada
+			return turnNumber % 2 == 0 ? SpellRepository.getByName(ExpelliarmusSpell.NAME) : null; 
 		}
 		
 	    Random random = new Random();

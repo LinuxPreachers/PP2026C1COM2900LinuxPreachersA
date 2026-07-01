@@ -3,11 +3,12 @@ import com.classes.sorcerer.Sorcerer;
 
 public class AvadaKedavraSpell extends Spell {
 	
-	private final static int REQUIRED_LEVEL = 50;
-	private final static double HIT_RATE = 0.4d;
+	public final static int REQUIRED_LEVEL = 50;
+	public final static double HIT_RATE = 0.4d;
+	public final static String NAME = "Avada Kedavra";
 	
 	public AvadaKedavraSpell() {
-		super("Avada Kedavra", MagicType.DARK_ARTS, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.DARK_ARTS, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

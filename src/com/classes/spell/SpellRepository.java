@@ -31,6 +31,9 @@ public final class SpellRepository {
 	
 	public static Spell getByName(String name) {
 		
+		if (name == null || name.trim() == "")
+			throw new IllegalArgumentException("Se debe ingresar un nombre de hechizo.");
+		
 		Spell spell = null;
 		
 		for (Iterator<Spell> it = SPELLS.iterator(); spell == null && it.hasNext();) {

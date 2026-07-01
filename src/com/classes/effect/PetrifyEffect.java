@@ -1,22 +1,19 @@
 package com.classes.effect;
 import com.classes.sorcerer.Sorcerer;
 
-public class PetrifyEffect extends Effect 
-{	
+public class PetrifyEffect extends Effect {	
+	public final static String NAME = "Petrificción";
 	
-	public PetrifyEffect(int turnsDuration) 
-    {
-        super("Petrificción", turnsDuration, Effect.EffectPolarity.NEUTRAL);
+	public PetrifyEffect(int turnsDuration) {
+        super(NAME, turnsDuration, Effect.EffectPolarity.NEUTRAL);
     }
     
     @Override
-    public boolean canAttack()
-    {
+    public boolean canAttack() {
     	return false;
     }
 
 	@Override
-	protected void applyLogic(Sorcerer target) 
-	{
+	protected void applyLogic(Sorcerer target) {
 	}
 }

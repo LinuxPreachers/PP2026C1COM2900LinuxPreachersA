@@ -8,10 +8,11 @@ public class EpiskeySpell extends Spell {
 		BASE_HEAL = 15,
 		REQUIRED_LEVEL = 10;
 	
-	private final static double HIT_RATE = 0.95d;
-
+	public final static double HIT_RATE = 0.95d;
+	public final static String NAME = "Episkey";
+	
 	public EpiskeySpell() {
-		super("Episkey", MagicType.HEALING, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.HEALING, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

@@ -9,10 +9,11 @@ public class SectumsempraSpell extends Spell {
 		BASE_DAMAGE = 25,
 		REQUIRED_LEVEL = 30;
 	
-	private final static double HIT_RATE = 0.55d;
+	public final static double HIT_RATE = 0.55d;
+	public final static String NAME = "Sectumsempra";
 	
 	public SectumsempraSpell() {
-		super("Sectumsempra", MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
+		super(NAME, MagicType.OFFENSIVE, REQUIRED_LEVEL, HIT_RATE);
 	}
 	
 	@Override

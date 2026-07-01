@@ -5,11 +5,13 @@ public class BurnEffect extends Effect
 {
 	
 	public final static int DAMAGE_PER_TURN = 5;
+	public final static String NAME = "Quemadura";
+	
 	private double casterEffectiveness;
 
     public BurnEffect(int turnsDuration, double casterEffectiveness) 
     {
-        super("Quemadura", turnsDuration, Effect.EffectPolarity.HARMFUL);
+        super(NAME, turnsDuration, Effect.EffectPolarity.HARMFUL);
         this.casterEffectiveness = casterEffectiveness;
     }
     
@@ -22,6 +24,8 @@ public class BurnEffect extends Effect
     @Override
     protected void applyLogic(Sorcerer target) 
     {
-        target.receiveDamage((int) Math.round(DAMAGE_PER_TURN * casterEffectiveness));
+    	int damage = (int) Math.round(DAMAGE_PER_TURN * casterEffectiveness);
+        target.receiveDamage(damage);
+        // System.out.println(target.getName() + " sufre " + damage + " puntos de daño debido al efecto de " + this.name);
     }
 }
